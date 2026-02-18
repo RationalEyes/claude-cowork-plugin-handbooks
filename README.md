@@ -1,0 +1,85 @@
+# Claude Cowork Plugin Handbooks
+
+**Comprehensive, business-friendly guides for every Anthropic Knowledge Work Plugin.**
+
+These handbooks turn Anthropic's [official plugin source code](https://github.com/anthropics/knowledge-work-plugins) into practical, readable guides for business users. Each handbook covers every command, skill, connector, and workflow — explained for the people who *use* the tools, not the people who built them.
+
+> 182,000+ words across 13 handbooks — researched and written by a coordinated team of 22 AI agents in under 2 hours. [See how.](#how-these-handbooks-were-made)
+
+---
+
+## What Are Knowledge Work Plugins?
+
+[Knowledge Work Plugins](https://github.com/anthropics/knowledge-work-plugins) turn Claude into a specialist for your role. Built for [Claude Cowork](https://claude.ai) and compatible with Claude Code, each plugin bundles domain expertise, workflows, tool integrations, and slash commands for a specific business function — from marketing and sales to legal, finance, and data analysis.
+
+The [official repository](https://github.com/anthropics/knowledge-work-plugins) provides the plugin source files: installation manifests, skill definitions, and connector configurations. These handbooks provide the **user manual** — what each plugin actually does, how to use every feature, and how to customize it for your industry and organization.
+
+**The plugins are the engine. These handbooks are the driver's manual.**
+
+---
+
+## Plugin Handbooks
+
+|   | Plugin | Words | Handbook |
+|:-:|--------|------:|----------|
+| :microscope: | **Bio-Research** — Preclinical research tools: literature search, genomics analysis, target prioritization for life sciences R&D. | 10,600 | [Read](handbooks/bio-research-handbook.md) · [PDF](handbooks/pdf/bio-research-handbook.pdf) |
+| :headphones: | **Customer Support** — Triage tickets, draft responses, escalate issues, build knowledge base articles from resolved cases. | 17,500 | [Read](handbooks/customer-support-handbook.md) · [PDF](handbooks/pdf/customer-support-handbook.pdf) |
+| :bar_chart: | **Data** — Write SQL, explore datasets, build visualizations, turn raw data into clear stories for stakeholders. | 10,400 | [Read](handbooks/data-handbook.md) · [PDF](handbooks/pdf/data-handbook.pdf) |
+| :mag: | **Enterprise Search** — Find anything across email, chat, docs, and wikis with a single unified query. | 12,600 | [Read](handbooks/enterprise-search-handbook.md) · [PDF](handbooks/pdf/enterprise-search-handbook.pdf) |
+| :moneybag: | **Finance** — Journal entries, reconciliation, financial statements, variance analysis, audit prep, and month-end close. | 9,500 | [Read](handbooks/finance-handbook.md) · [PDF](handbooks/pdf/finance-handbook.pdf) |
+| :balance_scale: | **Legal** — Contract review, NDA triage, compliance navigation, risk assessment, and templated legal responses. | 13,800 | [Read](handbooks/legal-handbook.md) · [PDF](handbooks/pdf/legal-handbook.pdf) |
+| :mega: | **Marketing** — Draft content, plan campaigns, enforce brand voice, brief on competitors, and report on performance. | 16,900 | [Read](handbooks/marketing-handbook.md) · [PDF](handbooks/pdf/marketing-handbook.pdf) |
+| :clipboard: | **Product Management** — Feature specs, roadmaps, user research synthesis, stakeholder updates, competitive landscape. | 12,000 | [Read](handbooks/product-management-handbook.md) · [PDF](handbooks/pdf/product-management-handbook.pdf) |
+| :calendar: | **Productivity** — Task management, daily planning, calendar workflows, and personal context memory. | 5,900 | [Read](handbooks/productivity-handbook.md) · [PDF](handbooks/pdf/productivity-handbook.pdf) |
+| :handshake: | **Sales** — Prospect research, call prep, pipeline review, outreach drafting, and competitive battlecards. | 14,900 | [Read](handbooks/sales-handbook.md) · [PDF](handbooks/pdf/sales-handbook.pdf) |
+
+---
+
+## Customization Showcase: Marketing for Life Sciences
+
+|   | Plugin | Words | Handbook |
+|:-:|--------|------:|----------|
+| :dna: | **Marketing for Life Sciences** — A complete adaptation of the Marketing plugin for pharmaceutical, biotech, and medtech teams. Adds regulatory compliance (FDA/EMA), MLR review workflows, HCP engagement, KOL strategy, and congress marketing. | 36,600 | [Read](handbooks/marketing-life-sciences-handbook.md) · [PDF](handbooks/pdf/marketing-life-sciences-handbook.pdf) |
+
+This handbook demonstrates what becomes possible when you adapt a general-purpose plugin for a specific industry. It includes 3 new commands, 2 new skills, and 4 reference documents beyond the base marketing plugin — all documented in a 12-part handbook that covers regulatory landscapes, KOL management, and pharma-specific workflows in depth.
+
+Use it as inspiration for building your own industry-specific adaptations.
+
+---
+
+## Building Your Own Plugins
+
+|   | Guide | Words | Handbook |
+|:-:|-------|------:|----------|
+| :wrench: | **Plugin Development Guide** — The complete reference for understanding plugin architecture, extending existing plugins, and creating new ones. Covers manifests, commands, skills, agents, hooks, MCP servers, and three approaches to customization. | 8,800 | [Read](handbooks/plugin-development-guide.md) · [PDF](handbooks/pdf/plugin-development-guide.pdf) |
+| :gear: | **Plugin Management Handbook** — User guide for the meta-plugin that helps you create and manage plugins directly within Claude. | 12,100 | [Read](handbooks/cowork-plugin-management-handbook.md) · [PDF](handbooks/pdf/cowork-plugin-management-handbook.pdf) |
+
+The Plugin Development Guide explains how plugins work under the hood. The Plugin Management Handbook covers the plugin that helps you build other plugins. Together, they give you everything you need to create plugins tailored to your organization.
+
+---
+
+## How These Handbooks Were Made
+
+These handbooks were generated by a coordinated team of 22 AI agents — an orchestrator running Claude Opus 4.6 directing specialized sub-agents running Sonnet 4.5 and Haiku 4.5. The agents read every file in every plugin, cross-referenced architecture documentation, and wrote each handbook independently with full coverage of commands, skills, connectors, and customization options.
+
+The full process completed in approximately 2 hours at an estimated API cost of ~$54, producing over 182,000 words of documentation.
+
+For the complete breakdown — agent architecture, token usage, cost analysis, timing, and quality metrics — see the full [Execution Report](execution-report.md) ([PDF](execution-report.pdf)).
+
+---
+
+## Resources
+
+- **Official Plugin Repository:** [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins) — plugin source code and installation instructions
+- **Claude Cowork:** [claude.ai](https://claude.ai) — install plugins directly from Plugin Settings
+- **Plugin Installation:** Open Claude Cowork, go to Plugin Settings, and install any Knowledge Work Plugin with one click
+
+## License
+
+These handbooks are provided under the [Apache 2.0 License](LICENSE).
+
+The plugin source code is maintained by Anthropic at [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins).
+
+---
+
+*Created by [RationalEyes.ai](https://rationaleyes.ai)*
