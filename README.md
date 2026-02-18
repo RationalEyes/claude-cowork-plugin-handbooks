@@ -10,7 +10,7 @@ These handbooks turn Anthropic's [official plugin source code](https://github.co
 
 ## What Are Knowledge Work Plugins?
 
-[Knowledge Work Plugins](https://github.com/anthropics/knowledge-work-plugins) turn Claude into a specialist for your role. Built for [Claude Cowork](https://claude.ai) and compatible with Claude Code, each plugin bundles domain expertise, workflows, tool integrations, and slash commands for a specific business function — from marketing and sales to legal, finance, and data analysis.
+[Knowledge Work Plugins](https://github.com/anthropics/knowledge-work-plugins) turn Claude into a specialist for your role and your business. Built for [Claude Cowork](https://claude.ai) and compatible with Claude Code, each plugin bundles domain expertise, workflows, tool integrations, and slash commands for a specific business function — from marketing and sales to legal, finance, and data analysis.
 
 The [official repository](https://github.com/anthropics/knowledge-work-plugins) provides the plugin source files: installation manifests, skill definitions, and connector configurations. These handbooks provide the **user manual** — what each plugin actually does, how to use every feature, and how to customize it for your industry and organization.
 
