@@ -4,7 +4,7 @@
 
 These handbooks turn Anthropic's [official plugin source code](https://github.com/anthropics/knowledge-work-plugins) into practical, readable guides for business users. Each handbook covers every command, skill, connector, and workflow — explained for the people who *use* the tools, not the people who built them.
 
-> 145,000+ words across 12 handbooks — researched and written by a coordinated team of 22 AI agents in under 2 hours. [See how.](#how-these-handbooks-were-made)
+> 145,000+ words across 12 handbooks — researched and written by a coordinated team of 22 AI agents in more than 2 hours. [See how.](#how-these-handbooks-were-made)
 
 ---
 
