@@ -1683,9 +1683,9 @@ Connect to your-new-tool
 
 ## Part V: Customization & Extension
 
-The marketing plugin is a general-purpose foundation. Most organizations will want to customize it for their industry, company-specific processes, or unique marketing approaches. This section shows you how, with reference to the plugin development guide for detailed technical instructions.
+The marketing plugin is a general-purpose foundation. Most organizations will want to customize it for their industry, company-specific processes, or unique marketing approaches. This section shows you how, with reference to the Plugin Management Handbook for detailed technical instructions.
 
-For complete technical details on the extension framework, see [Plugin Development Guide](plugin-development-guide.md).
+For complete technical details on the extension framework, see [Plugin Management Handbook](cowork-plugin-management-handbook.md).
 
 ### Three Customization Approaches
 
@@ -2367,7 +2367,7 @@ This table shows which skills are referenced or activated by each command:
 
 **Q: Can I see examples of other teams' customizations?**
 
-**A:** Anthropic does not publish customer-specific customizations, but the plugin development guide (Part V reference) includes example patterns for common industries (pharma, finance, etc.).
+**A:** Anthropic does not publish customer-specific customizations, but the Plugin Management Handbook (Part V reference) includes example patterns for common industries (pharma, finance, etc.).
 
 **Q: I found a bug or have a feature request. Where do I report it?**
 
@@ -2397,7 +2397,7 @@ The marketing plugin transforms Claude into a specialized marketing assistant wi
 
 **For Advanced Users:**
 
-- Review [Plugin Development Guide](plugin-development-guide.md) for detailed customization and extension techniques
+- Review [Plugin Management Handbook](cowork-plugin-management-handbook.md) for detailed customization and extension techniques
 - Build complementary skills for your industry or company
 - Create additional commands for workflows unique to your marketing org
 - Share your customizations with your team by packaging and distributing a forked plugin

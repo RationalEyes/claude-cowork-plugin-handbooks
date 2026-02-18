@@ -2569,7 +2569,7 @@ Files analyzed: 18
 - Commands (5): review-contract.md, triage-nda.md, vendor-check.md, brief.md, respond.md
 - Skills (6): contract-review/SKILL.md, nda-triage/SKILL.md, compliance/SKILL.md, canned-responses/SKILL.md, legal-risk-assessment/SKILL.md, meeting-briefing/SKILL.md
 - Configuration (3): .mcp.json, CONNECTORS.md, README.md
-- Reference material (3): plugin-development-guide.md, CLAUDE.md, project structure
+- Reference material (3): cowork-plugin-management-handbook.md, CLAUDE.md, project structure
 
 Handbook word count: ~18,500 words
 Start time: 1771068399

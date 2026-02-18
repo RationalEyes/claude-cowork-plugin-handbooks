@@ -1499,7 +1499,7 @@ Files analyzed: 17
 - README.md
 - 5 command files (journal-entry.md, reconciliation.md, income-statement.md, variance-analysis.md, sox-testing.md)
 - 6 skill files (journal-entry-prep/SKILL.md, reconciliation/SKILL.md, financial-statements/SKILL.md, variance-analysis/SKILL.md, close-management/SKILL.md, audit-support/SKILL.md)
-- Plugin development guide (plugin-development-guide.md)
+- Plugin development guide (cowork-plugin-management-handbook.md)
 
 Handbook word count: 10,500 (approximately)
 Start time: 1771068395

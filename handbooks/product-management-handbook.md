@@ -2607,7 +2607,7 @@ AGENT_REPORT_START
   - 1 README.md
   - 6 command files
   - 6 skill files
-  - 1 plugin development guide
+  - 1 Plugin Management Handbook
   - 1 handbook (this document)
 
 **Handbook word count**: ~18,500 words

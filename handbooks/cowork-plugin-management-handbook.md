@@ -1,53 +1,76 @@
-# The Complete Cowork Plugin Management Handbook
+# Plugin Management Handbook
 
-**Version 0.2.1**
+**The Complete Guide to Creating, Customizing, and Managing Claude Cowork Plugins**
 
-A comprehensive guide to creating, customizing, and managing Claude Cowork plugins using the cowork-plugin-management plugin.
+---
+
+**Plugin Name:** cowork-plugin-management
+**Version:** 1.0.0
+**Author:** Anthropic
+**Description:** Create, customize, and manage plugins tailored to your organization's tools and workflows. Configure MCP servers, adjust plugin behavior, and adapt templates to match how your team works.
 
 ---
 
 ## Table of Contents
 
-- [Part I: Introduction and Overview](#part-i-introduction-and-overview)
+- [Part I: Overview & Quick Start](#part-i-overview--quick-start)
 - [Part II: Commands Reference](#part-ii-commands-reference)
 - [Part III: Skills Deep Dive](#part-iii-skills-deep-dive)
-- [Part IV: Connectors and MCP Integration](#part-iv-connectors-and-mcp-integration)
-- [Part V: Workflows and Use Cases](#part-v-workflows-and-use-cases)
-- [Part VI: Best Practices and Guidelines](#part-vi-best-practices-and-guidelines)
-- [Part VII: Troubleshooting and Advanced Topics](#part-vii-troubleshooting-and-advanced-topics)
+- [Part IV: Connectors & MCP Servers](#part-iv-connectors--mcp-servers)
+- [Part V: Customization & Extension](#part-v-customization--extension)
+- [Part VI: File Reference](#part-vi-file-reference)
+- [Part VII: Troubleshooting & FAQ](#part-vii-troubleshooting--faq)
 
 ---
 
-## Part I: Introduction and Overview
+## Part I: Overview & Quick Start
 
 ### What Is the Plugin Management Plugin?
 
-The cowork-plugin-management plugin is the meta-plugin in the Claude Cowork ecosystem — it is the tool you use to create and manage all other plugins. Think of it as the master key that unlocks the ability to extend Claude's capabilities for your specific organization, industry, or use case.
+The cowork-plugin-management plugin is the meta-plugin in the Claude Cowork ecosystem. While every other plugin gives Claude domain-specific capabilities — marketing expertise, legal analysis, financial modeling — the plugin management plugin gives Claude the ability to build and customize those plugins themselves. It is the tool that builds other tools.
 
-Unlike most plugins that add domain-specific capabilities (marketing, engineering, data analysis), this plugin operates at an architectural level. It provides two core capabilities:
+Think of it this way: if the marketing plugin is a specialized appliance in your kitchen, the plugin management plugin is the workshop where you design and assemble new appliances. It encodes the complete plugin architecture, the rules for how every component works, and guided workflows for creating or adapting plugins to your exact needs.
 
-1. **Plugin Creation**: A guided, conversational workflow for building new plugins from scratch
-2. **Plugin Customization**: A systematic process for adapting generic plugin templates to your organization's specific tools and workflows
+This plugin operates through two core skills that activate automatically during conversation. There are no slash commands to memorize. You simply describe what you want to build or customize, and Claude walks you through the process step by step, asking clarifying questions along the way and delivering a finished, installable plugin file at the end.
 
-**Critical architectural note:** This plugin has no slash commands and no MCP server connections. It operates entirely through skills that trigger automatically based on conversational context. This design choice reflects its nature as a development tool — you do not invoke plugin management operations with slash commands; you have conversations about what you want to build or customize, and the skills activate as needed.
+### Business Problems Solved
 
-### Who Should Use This Plugin?
+**For Plugin Administrators and IT Teams:**
+- **Standardizing workflows across the organization**: Package your company's best practices, terminology, and processes into plugins that every team member uses. No more inconsistent approaches or tribal knowledge.
+- **Connecting your specific tool stack**: Generic plugins reference tool categories. You need those categories replaced with your actual tools — Asana instead of "project tracker," Slack instead of "chat." The customizer skill handles this automatically.
+- **Version-controlled distribution**: Package plugins as `.plugin` files that can be tested, version-controlled, and distributed to dozens or hundreds of users at once.
 
-This plugin is designed for several key personas:
+**For Team Leads and Managers:**
+- **Codifying institutional knowledge**: Turn your team's processes, checklists, and decision frameworks into skills that Claude applies automatically. When a new team member joins, they get the benefit of years of accumulated knowledge through the plugin.
+- **Reducing onboarding time**: Instead of documenting every process in wikis that nobody reads, embed them in plugins where they surface naturally during work.
+- **Maintaining consistency**: When every team member uses the same plugin with your workflows embedded, output quality becomes more predictable.
 
-**Plugin Administrators** are IT professionals or system administrators who manage Claude deployments across an organization. They use this plugin to create company-specific plugins that standardize workflows, enforce policies, and connect internal tools.
+**For Enterprise IT Managers:**
+- **Customizing plugins for your organization**: Adapt generic plugins to reference your specific tools, project names, workspace IDs, and team conventions without building anything from scratch.
+- **Managing plugin lifecycles**: Create, version, distribute, and update plugins across multiple departments with a structured process.
+- **Enforcing governance**: Build plugins with hooks that automatically enforce policies — compliance checks, naming conventions, security reviews — without relying on people to remember the rules.
 
-**Team Leads** are managers who want to codify their team's processes and best practices into reusable skills. They use this plugin to create plugins that embed institutional knowledge, ensuring consistency as team members come and go.
+**For Power Users:**
+- **Packaging custom workflows**: Turn your personal productivity patterns into formal plugins that colleagues can install with one click.
+- **Sharing expertise**: If you have built effective prompts and reference documents for a particular domain, package them as a plugin so others benefit.
+- **Prototyping quickly**: Test new plugin ideas through a guided conversation, get a working prototype in minutes, and iterate from there.
 
-**Enterprise IT Managers** oversee Claude rollouts across multiple departments. They use this plugin to customize existing plugins for their organization's tool stack (replacing generic "project tracker" references with "Jira" or "Asana," for example) and to manage plugin versions across teams.
+### Target Users
 
-**Power Users** are individuals who have discovered workflows they want to standardize and share. They use this plugin to package their custom prompts, reference documents, and tool integrations into formal plugins.
+This plugin is designed for:
 
-### Installation
+- **Plugin Administrators** who manage Claude deployments and maintain plugin libraries for their organization
+- **Team Leads** who want to codify their team's processes and best practices into reusable, shareable tools
+- **Enterprise IT Managers** who oversee Claude rollouts across multiple departments and need to customize plugins for their tool stack
+- **Power Users** who have discovered effective workflows and want to standardize and share them as formal plugins
+- **Solutions Architects** who design Claude-based solutions for specific business needs and use cases
+- **Operations Managers** who want to embed process compliance and quality checks into automated workflows
+
+### Quick Start Walkthrough
+
+**Step 1: Install the Plugin**
 
 **Cowork (recommended):** Open **Plugin Settings** in the Cowork desktop app, find **Cowork Plugin Management**, and click **Install**. The plugin activates immediately — no CLI required.
-
-> **Note:** All standard Cowork plugins, including Plugin Management, are available from Plugin Settings with a single click. This plugin requires the Cowork desktop app — its skills depend on access to mounted plugin directories and the outputs directory for delivering `.plugin` files. It cannot function in CLI-only or remote container environments.
 
 **Claude Code CLI (alternative):** If you are using Claude Code in the terminal, install via:
 
@@ -55,85 +78,130 @@ This plugin is designed for several key personas:
 claude plugins add knowledge-work-plugins/cowork-plugin-management
 ```
 
-Note that the plugin creation and customization skills have limited functionality outside the Cowork desktop app, as they require access to mounted plugin directories (`mnt/.plugins/`, `mnt/.local-plugins/`) and the outputs directory for delivering `.plugin` files.
+> **Note:** All standard Cowork plugins, including Plugin Management, are available from Plugin Settings with a single click. The CLI command above is only needed for Claude Code terminal users. Be aware that the plugin creation and customization skills have limited functionality outside the Cowork desktop app, as they require access to mounted plugin directories and the outputs directory for delivering `.plugin` files.
 
-### What Makes This Plugin Different?
+**Step 2: Verify Installation**
 
-Most plugins extend Claude with domain knowledge — how to write marketing copy, how to analyze code, how to process scientific papers. The plugin management plugin extends Claude with *architectural* knowledge — how plugins themselves work, what components they contain, how to structure them correctly, and how to adapt them to different contexts.
+Ask Claude:
 
-This plugin is also unique in its delivery mechanism. While most plugins deliver value through commands (actions you invoke) or persistent skills (knowledge that is always available), this plugin's skills are **contextual and conversational**. They activate when you express intent to create or customize a plugin, guide you through a multi-phase workflow, and then deliver a concrete artifact (a `.plugin` file) at the end.
+```
+What plugins are installed?
+```
+
+You should see `cowork-plugin-management` in the list.
+
+**Step 3: Create Your First Plugin**
+
+Since this plugin has no slash commands, you interact with it through natural conversation. Try saying:
+
+```
+I want to create a plugin for our team's weekly reporting process
+```
+
+Claude will activate the `create-cowork-plugin` skill and begin the guided discovery phase. It will ask you:
+
+- What the plugin should do and what problem it solves
+- Who will use it and in what context
+- Whether it needs to connect to any external tools
+- Whether there is a similar workflow or plugin to reference
+
+Answer these questions, and Claude will walk you through planning, designing, building, and packaging your plugin.
+
+**Step 4: Or Customize an Existing Plugin**
+
+If you have an installed plugin that needs to be adapted to your organization's tools, say:
+
+```
+I want to customize the marketing plugin for our company
+```
+
+Claude will activate the `cowork-plugin-customizer` skill. It will search your connected knowledge sources (Slack, documents, email) to learn what tools your organization uses, then systematically replace generic references with your actual tool names and configurations.
+
+**Step 5: Install Your New Plugin**
+
+Both skills deliver a `.plugin` file at the end of the workflow. This file appears in the chat as a rich preview where you can browse the plugin's files and accept it with a button click. Once accepted, the plugin is installed and ready to use.
+
+### How This Plugin Differs from Domain Plugins
+
+Most Cowork plugins add domain knowledge to Claude. The marketing plugin knows how to plan campaigns. The legal plugin knows how to review contracts. The data plugin knows how to analyze datasets.
+
+The plugin management plugin adds *architectural* knowledge. It knows how plugins themselves work — what components they contain, how to structure them correctly, how to write skill descriptions that trigger reliably, how to configure MCP server connections, and how to package everything into a distributable file.
+
+This difference manifests in several ways:
+
+| Characteristic | Domain Plugins (e.g., Marketing) | Plugin Management |
+|---------------|----------------------------------|-------------------|
+| **Commands** | Multiple slash commands (e.g., `/campaign-plan`) | None |
+| **Interaction model** | Command-driven: invoke, provide inputs, get output | Conversational: describe intent, answer questions, iterate |
+| **Skills** | Domain expertise that loads based on topic | Architectural knowledge that loads when building or customizing plugins |
+| **MCP servers** | Connects to domain tools (HubSpot, Amplitude) | None of its own (but configures them for other plugins) |
+| **Output** | Content, reports, analysis | Plugin files (`.plugin` packages) |
+| **Session length** | Typically one command, one result | Multi-phase workflow spanning many exchanges |
+
+Understanding this difference is important because it sets expectations for how you interact with the plugin. You do not run a command and step back. You engage in a conversation that may span 10-20 exchanges as you and Claude work through discovery, planning, design, and implementation together.
 
 ### The Two Core Skills
 
-The plugin contains two major skills, each supporting a distinct workflow:
+The plugin contains two skills, each supporting a distinct workflow:
 
-**create-cowork-plugin** guides you through building a new plugin from scratch. It encodes the complete plugin architecture, component schemas, and a five-phase creation process that moves from discovery to implementation to packaging. Use this skill when you are starting from zero.
+**create-cowork-plugin** guides you through building a new plugin from scratch. It encodes the complete plugin architecture, component schemas, and a five-phase creation process that moves from discovery to implementation to packaging. Use this skill when you are starting from zero — when no existing plugin covers your need, or when you want full control over every component and design decision.
 
-**cowork-plugin-customizer** helps you adapt an existing plugin to your organization's specific tools and processes. It searches for customization points marked with `~~` placeholders, gathers context from your knowledge sources, and systematically replaces generic references with your actual tool names and configuration values. Use this skill when you have a generic plugin template that needs to be personalized.
+**cowork-plugin-customizer** helps you adapt an existing plugin to your organization's specific tools and processes. It searches for customization points marked with `~~` placeholders in plugin files, gathers context from your connected knowledge sources, and systematically replaces generic references with your actual tool names and configuration values. Use this skill when you have a generic plugin template that needs to be personalized for your organization.
 
-Both skills require the Cowork desktop app environment with access to the outputs directory. They cannot function in remote containers or CLI-only sessions, as they need to deliver plugin files and access mounted plugin directories.
+Both skills require the Cowork desktop app environment. They need access to the outputs directory for delivering `.plugin` files and to mounted plugin directories for reading existing plugins. They will not function in remote containers or CLI-only sessions.
 
 ### How Plugin Management Fits Into the Ecosystem
 
-Understanding this plugin requires understanding where it sits in the broader Claude plugin ecosystem:
+Understanding where this plugin sits in the broader lifecycle helps explain why it exists and when to use it:
 
 ```
 Plugin Development Lifecycle
-┌────────────────────────────────────────────────────────────┐
-│                                                            │
-│  Generic Plugin Template (with ~~ placeholders)            │
-│         ↓                                                  │
-│  [cowork-plugin-customizer skill]                          │
-│         ↓                                                  │
-│  Organization-Specific Plugin (Acme Corp tools)            │
-│         ↓                                                  │
-│  Distribution as .plugin file                              │
-│         ↓                                                  │
-│  End Users Install and Use                                 │
-│                                                            │
-│  OR                                                        │
-│                                                            │
-│  Identified Need                                           │
-│         ↓                                                  │
-│  [create-cowork-plugin skill]                              │
-│         ↓                                                  │
-│  Custom Plugin (built from scratch)                        │
-│         ↓                                                  │
-│  Testing and Iteration                                     │
-│         ↓                                                  │
-│  Distribution as .plugin file                              │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
++------------------------------------------------------------+
+|                                                            |
+|  Path 1: Build from Scratch                                |
+|                                                            |
+|  Identified need                                           |
+|         |                                                  |
+|  [create-cowork-plugin skill]                              |
+|         |                                                  |
+|  Custom plugin (built from scratch)                        |
+|         |                                                  |
+|  Testing and iteration                                     |
+|         |                                                  |
+|  Distribution as .plugin file                              |
+|                                                            |
++------------------------------------------------------------+
+|                                                            |
+|  Path 2: Customize an Existing Template                    |
+|                                                            |
+|  Generic plugin template (with ~~ placeholders)            |
+|         |                                                  |
+|  [cowork-plugin-customizer skill]                          |
+|         |                                                  |
+|  Organization-specific plugin (your tools configured)      |
+|         |                                                  |
+|  Distribution as .plugin file                              |
+|         |                                                  |
+|  End users install and use                                 |
+|                                                            |
++------------------------------------------------------------+
 ```
 
-This plugin enables both paths: creating net-new plugins and customizing existing ones. It sits at the beginning of the plugin lifecycle, enabling everything downstream.
+This plugin enables both paths. It sits at the beginning of the plugin lifecycle, enabling everything downstream.
 
-### The Value Proposition
+### Why Build Plugins Instead of Writing Good Prompts?
 
-Why invest time in creating or customizing plugins rather than just writing good prompts?
+Investing time in creating or customizing plugins offers several advantages over ad-hoc prompting:
 
-**Reusability**: A well-crafted plugin packages workflows, knowledge, and tool integrations so they can be used repeatedly across projects and team members without reinventing the wheel each time.
+**Reusability.** A well-crafted plugin packages workflows, knowledge, and tool integrations so they can be used repeatedly across projects and team members without reinventing the wheel each time.
 
-**Standardization**: Plugins encode best practices and institutional knowledge. When your entire marketing team uses the same marketing plugin with your brand voice embedded, content quality becomes more consistent.
+**Standardization.** Plugins encode best practices and institutional knowledge. When your entire marketing team uses the same marketing plugin with your brand voice embedded, content quality becomes more consistent.
 
-**Discoverability**: Skills trigger automatically when relevant topics come up. Users do not need to remember complex prompts or know specialized terminology — they just work naturally, and Claude brings in the right knowledge.
+**Discoverability.** Skills trigger automatically when relevant topics come up. Users do not need to remember complex prompts or specialized terminology — they just work naturally, and Claude brings in the right knowledge.
 
-**Tool Integration**: MCP server configurations in plugins mean users do not manually set up connections to Asana, HubSpot, Figma, and other services. The plugin carries those configurations, and connections happen seamlessly.
+**Tool integration.** MCP server configurations in plugins mean users do not manually set up connections to Asana, HubSpot, Figma, and other services. The plugin carries those configurations, and connections happen seamlessly.
 
-**Version Control and Distribution**: Plugins package everything (knowledge, commands, integrations) into a single `.plugin` file that can be version-controlled, tested, and distributed to dozens or hundreds of users at once.
-
-### What You Will Learn in This Handbook
-
-This handbook provides comprehensive coverage of the plugin management plugin:
-
-- **Part II** explains that this plugin has no commands and why that architectural decision was made
-- **Part III** deep-dives into both skills, covering the five-phase creation workflow and the four-phase customization workflow in detail
-- **Part IV** clarifies that this plugin has no MCP connectors of its own but extensively manages MCP configurations for other plugins
-- **Part V** provides real-world workflows: creating a plugin from scratch, customizing a template, forking and extending an existing plugin, and troubleshooting common issues
-- **Part VI** covers best practices: when to create versus customize, how to structure knowledge for progressive disclosure, and how to write skills that trigger reliably
-- **Part VII** addresses troubleshooting, advanced customization scenarios, and how to extend the plugin management plugin itself
-
-By the end of this handbook, you will understand not only how to use the plugin management plugin but also the deeper architectural principles that make the entire plugin system work.
+**Version control and distribution.** Plugins package everything — knowledge, commands, integrations — into a single `.plugin` file that can be version-controlled, tested, and distributed at scale.
 
 ---
 
@@ -141,80 +209,93 @@ By the end of this handbook, you will understand not only how to use the plugin 
 
 ### Why This Plugin Has No Commands
 
-The cowork-plugin-management plugin is unusual: it contains **no slash commands at all**. There is no `/create-plugin` or `/customize` command. This is an intentional architectural choice, not an oversight.
+The cowork-plugin-management plugin is unusual among Cowork plugins: it contains **zero slash commands**. There is no `/create-plugin` or `/customize` command. This is a deliberate architectural decision, not an oversight.
 
-Understanding why requires understanding the difference between commands and skills in the Claude plugin architecture:
+Understanding why requires understanding the difference between commands and skills in the Claude plugin architecture.
 
-**Commands** are user-initiated, explicit actions. The user types `/campaign-plan` and Claude executes the workflow defined in that command file. Commands are best for operations with clear start and end points, where the user knows exactly what they want to do.
+**Commands** are user-initiated, explicit actions. You type `/campaign-plan` and Claude executes the workflow defined in that command file. Commands are best for operations with clear start and end points, predictable inputs, and structured outputs. They work well when you know exactly what you want to do.
 
-**Skills** are context-activated knowledge packages. Claude automatically loads a skill when the conversation touches on relevant topics. Skills are best for providing reference knowledge, frameworks, and domain expertise that may be needed at various points in a workflow.
+**Skills** are context-activated knowledge packages. Claude automatically loads a skill when the conversation touches on relevant topics. Skills are best for providing reference knowledge, frameworks, and domain expertise that may be needed at various points in a conversation.
 
-Plugin creation and customization are inherently **conversational, multi-phase processes**. They involve:
+Plugin creation and customization are inherently conversational, multi-phase processes. They involve:
 
-- Discovery conversations to understand what the user wants to build
-- Clarifying questions that depend on previous answers
-- Decision points where the user may change direction
+- Discovery conversations to understand what you want to build
+- Clarifying questions that depend on your previous answers
+- Decision points where you may change direction
 - Iterative refinement of component designs
 - Delivery of a final artifact after all decisions are made
 
-Forcing this into a slash command structure would be awkward. The user would either need to provide all inputs upfront in a single command invocation (impractical for complex plugin designs) or the command would need to engage in back-and-forth dialogue (which blurs the line between command and conversation).
+Forcing this into a slash command structure would be awkward. You would either need to provide all inputs upfront in a single command invocation (impractical for complex plugin designs) or the command would need to engage in extended back-and-forth dialogue (which blurs the line between command and conversation).
 
-Instead, the plugin management plugin uses **conversational skills** that activate when the user expresses intent:
+Instead, the plugin management plugin uses **conversational skills** that activate when you express intent:
 
-- "I want to create a plugin for pharmaceutical marketing" → `create-cowork-plugin` skill triggers
-- "I need to customize this plugin for my team's tools" → `cowork-plugin-customizer` skill triggers
+- "I want to create a plugin for pharmaceutical marketing" triggers the `create-cowork-plugin` skill
+- "I need to customize this plugin for my team's tools" triggers the `cowork-plugin-customizer` skill
 
-This design leverages Claude's natural language understanding. You do not need to remember command syntax or argument order. You just describe what you want to do in plain language, and the appropriate skill engages.
+This design leverages Claude's natural language understanding. You do not need to remember command syntax or argument order. You describe what you want in plain language, and the appropriate skill engages.
 
 ### How to Invoke Plugin Management Capabilities
 
-Since there are no commands, how do you actually use this plugin? Through natural language expressions of intent:
+Since there are no commands, you interact with this plugin through natural language expressions of intent.
 
 **To create a new plugin:**
 - "I want to create a plugin"
 - "Help me build a plugin for compliance workflows"
 - "Let's make a plugin from scratch"
 - "I need to design a plugin for my team"
+- "Can we scaffold a new plugin?"
+- "Start a plugin from scratch for onboarding"
 
 **To customize an existing plugin:**
 - "Customize this plugin for my organization"
-- "I need to personalize the marketing plugin"
-- "Let's adapt this plugin to our tools"
+- "I need to personalize the marketing plugin for our tools"
+- "Let's adapt this plugin to our team's workflow"
 - "Replace the tool placeholders in this plugin"
+- "Configure the engineering plugin for our company"
 
-The skills' trigger descriptions encode these phrases, ensuring reliable activation.
+The skills' trigger descriptions encode these phrases, ensuring reliable activation when you use similar language.
 
 ### Comparison to Command-Driven Plugins
 
 To illustrate the difference, consider the marketing plugin, which has both commands and skills:
 
 **Marketing Plugin Commands (explicit invocation):**
-- `/campaign-plan` — Generate a campaign brief
-- `/brand-review` — Review content for brand alignment
-- `/competitive-brief` — Create competitive analysis
-- `/performance-report` — Generate campaign performance report
+
+| Command | Purpose |
+|---------|---------|
+| `/campaign-plan` | Generate a campaign brief |
+| `/draft-content` | Create marketing content |
+| `/brand-review` | Review content for brand alignment |
+| `/competitive-brief` | Create competitive analysis |
+| `/performance-report` | Generate performance report |
+| `/seo-audit` | Run an SEO audit |
+| `/email-sequence` | Design email sequences |
 
 **Marketing Plugin Skills (automatic activation):**
-- `brand-voice` — Loads when conversation involves brand guidelines or tone
-- `campaign-planning` — Loads when discussing campaign strategy
-- `competitive-intelligence` — Loads when analyzing competitors
-- `performance-analysis` — Loads when reviewing metrics or results
 
-The plugin management plugin is **all skills, no commands**, because its entire function is knowledge-intensive and conversational, not action-oriented.
+| Skill | Activates When Discussing |
+|-------|--------------------------|
+| `brand-voice` | Brand guidelines or tone |
+| `campaign-planning` | Campaign strategy |
+| `competitive-analysis` | Competitors |
+| `content-creation` | Content templates or best practices |
+| `performance-analytics` | Metrics or results |
+
+The plugin management plugin is **all skills, no commands**, because its entire function is knowledge-intensive and conversational rather than action-oriented. You do not invoke a quick action and get structured output. You engage in a guided process that unfolds over multiple exchanges.
 
 ### The Implication for Users
 
-If you are accustomed to slash commands as the primary plugin interface, this plugin requires a mindset shift. You do not invoke a command and step back; you engage in a conversation. The plugin asks questions, you provide answers, it makes recommendations, you confirm or adjust, and the process iterates until a plugin is complete.
+If you are accustomed to slash commands as the primary way to interact with plugins, this plugin requires a mindset shift. You do not invoke a command and step back; you engage in a conversation. The plugin asks questions, you provide answers, it makes recommendations, you confirm or adjust, and the process iterates until a plugin is complete.
 
-This conversational model is more flexible than command-based workflows but requires more active participation. You cannot just run `/create-plugin marketing` and expect a finished plugin to appear. You must engage in the discovery, planning, and design phases.
+This conversational model is more flexible than command-based workflows but requires more active participation. You cannot type `/create-plugin marketing` and expect a finished plugin to appear. You must engage in the discovery, planning, and design phases — and that engagement is what makes the resulting plugin genuinely tailored to your needs rather than a generic template.
 
-The benefit: the resulting plugin is tailored to your exact needs, not a generic template with placeholders you have to fill in later.
+The benefit is significant: the plugin you get at the end reflects your actual requirements, tool stack, and workflows, not a one-size-fits-all approximation.
 
 ---
 
 ## Part III: Skills Deep Dive
 
-This section is the heart of the handbook, as skills are the entire substance of the plugin management plugin. We will examine both skills in detail, including their trigger mechanisms, internal workflows, design principles, and how to use them effectively.
+This section is the heart of the handbook, as skills are the entire interface of the plugin management plugin. We examine both skills in detail, including their trigger mechanisms, internal workflows, design principles, and practical guidance for using them effectively.
 
 ### Skill 1: create-cowork-plugin
 
@@ -228,38 +309,34 @@ The create-cowork-plugin skill guides you through building a new plugin from scr
 - Best practices for each component type
 - Reference examples at three complexity levels (minimal, standard, full-featured)
 
-When you trigger this skill, you are not just getting documentation about how plugins work — you are getting a structured process that walks you through creating one.
+When this skill activates, you are not just getting documentation about how plugins work. You are getting a structured process that walks you through creating one, asking the right questions at each stage, and delivering an installable plugin file at the end.
 
 #### When to Use It
 
-Use this skill when:
+**Use this skill when:**
 
-- You have a clear need that is not met by existing plugins
-- You want to package institutional knowledge or workflows into a reusable form
-- You are building a domain-specific plugin for a narrow use case (e.g., regulatory compliance for medical devices)
+- You have a clear need that no existing plugin addresses
+- You want to package institutional knowledge or team workflows into a reusable plugin
+- You are building a domain-specific plugin for a narrow use case (e.g., regulatory compliance for medical devices, customer onboarding for your SaaS product)
 - You want full control over every component and design decision
 
-Do not use this skill when:
+**Do not use this skill when:**
 
-- An existing plugin already does 80% of what you need (extend or customize instead)
-- You are unsure what you want to build (start with a conversation to clarify, then engage the skill)
-- You are looking for documentation only (the plugin development guide in the handbook repository is better for reference)
+- An existing plugin already does 80% of what you need — customize or extend it instead (see Part V)
+- You are unsure what you want to build — start with a general conversation to clarify your needs, then engage the skill
+- You only need documentation about how plugins work — this handbook and the file reference in Part VI serve that purpose
 
 #### How It Triggers
 
-The skill's description encodes these trigger phrases:
+The skill triggers when you express intent to create a plugin. The skill description encodes these activation phrases:
 
 > "Use when users want to create a plugin, build a plugin, make a new plugin, develop a plugin, scaffold a plugin, start a plugin from scratch, or design a plugin."
 
-Any of these expressions in conversation will activate the skill. The description also notes:
-
-> "This skill requires Cowork mode with access to the outputs directory for delivering the final .plugin file."
-
-If the user tries to trigger this skill in a remote container or CLI session, the skill will detect the incompatible environment and abort with a helpful error message.
+Any of these expressions in conversation will activate the skill. The skill also detects incompatible environments — if you try to trigger it in a remote container or CLI-only session, it will explain that plugin creation requires the Cowork desktop app.
 
 #### The Five-Phase Workflow
 
-**Phase 1: Discovery**
+##### Phase 1: Discovery
 
 The skill's goal in this phase is to understand what you want to build and why. It asks clarifying questions only when your initial request leaves gaps:
 
@@ -268,41 +345,49 @@ The skill's goal in this phase is to understand what you want to build and why. 
 - Does it integrate with any external tools or services?
 - Is there a similar plugin or workflow to reference?
 
-The skill summarizes its understanding and confirms before proceeding. This prevents building the wrong thing.
+The skill summarizes its understanding and confirms before proceeding. This prevents building the wrong thing and ensures alignment on scope.
+
+**Example discovery exchange:**
+
+You say: "I want to build a plugin that helps our QA team manage test plans and track test results."
+
+Claude asks: "A few questions to make sure I understand the scope: (1) Should this plugin connect to any tools your QA team already uses, like TestRail, Zephyr, or a project tracker? (2) Are test plans standardized at your company, or does each team have their own format? (3) Should the plugin generate test plans from requirements, track execution results, or both?"
+
+You answer, and the skill confirms: "So we are building a QA plugin that generates test plans from user stories in Linear, tracks execution results, and produces summary reports. The team uses a standardized test plan format with sections for prerequisites, test steps, expected results, and pass/fail criteria. Does that capture it correctly?"
 
 **Output:** A clear statement of plugin purpose and scope.
 
-**Phase 2: Component Planning**
+##### Phase 2: Component Planning
 
-Based on the discovery phase, the skill determines which component types are needed. It considers:
+Based on what was learned in discovery, the skill determines which component types the plugin needs. It evaluates each type against specific decision criteria:
 
 | Component | Decision Criteria |
 |-----------|------------------|
-| Skills | Does the plugin require specialized knowledge that Claude should load on demand? (domain expertise, reference schemas, workflow guides) |
-| Commands | Are there user-initiated actions with clear inputs and outputs? (deploy, configure, analyze, review) |
-| MCP Servers | Does the plugin need to read from or write to external services? (databases, APIs, SaaS tools) |
-| Agents | Are there autonomous multi-step tasks that benefit from dedicated focus? (validation, generation, analysis) |
-| Hooks | Should certain behaviors happen automatically on specific events? (enforce policies, load context, validate operations) |
+| **Skills** | Does the plugin require specialized knowledge that Claude should load on demand? (domain expertise, reference schemas, workflow guides) |
+| **Commands** | Are there user-initiated actions with clear inputs and outputs? (generate, analyze, review, configure) |
+| **MCP Servers** | Does the plugin need to read from or write to external services? (databases, APIs, SaaS tools) |
+| **Agents** | Are there autonomous multi-step tasks that benefit from dedicated focus? (validation, analysis, generation) |
+| **Hooks** | Should certain behaviors happen automatically on specific events? (enforce policies, load context, validate operations) |
 
-The skill presents a component plan table:
+The skill presents a component plan and asks for your confirmation:
 
 ```
-| Component | Count | Purpose |
-|-----------|-------|---------|
-| Skills    | 1     | Domain knowledge for regulatory compliance |
-| Commands  | 2     | /mlr-review, /fair-balance-check |
-| Agents    | 0     | Not needed |
-| Hooks     | 1     | Validate all content writes for compliance |
-| MCP       | 1     | Connect to regulatory database |
+| Component | Count | Purpose                                          |
+|-----------|-------|--------------------------------------------------|
+| Skills    | 1     | QA methodology and test plan frameworks           |
+| Commands  | 3     | /generate-test-plan, /test-summary, /coverage-map |
+| Agents    | 0     | Not needed for this use case                      |
+| Hooks     | 0     | Not needed for this use case                      |
+| MCP       | 1     | Connect to Linear for user stories and tracking   |
 ```
 
-You confirm or adjust before proceeding.
+You confirm or adjust before proceeding. If you think a command should be split into two, or an agent would be useful after all, this is the time to say so.
 
 **Output:** A confirmed list of components to create.
 
-**Phase 3: Design & Clarifying Questions**
+##### Phase 3: Design and Clarifying Questions
 
-This is the most interactive phase. The skill asks targeted questions for each component type in the plan. Questions are grouped by component and presented in batches.
+This is the most interactive phase. The skill asks targeted questions for each component type in the plan, presented in groups by component type.
 
 **For skills:**
 - What user queries should trigger this skill?
@@ -312,481 +397,360 @@ This is the most interactive phase. The skill asks targeted questions for each c
 **For commands:**
 - What arguments does each command accept?
 - What tools does each command need? (Read, Write, Bash, Grep, etc.)
-- Is each command interactive or automated?
+- Is each command interactive (asks follow-up questions) or automated (runs to completion)?
 
 **For agents:**
-- Should each agent trigger proactively or only when requested?
+- Should each agent trigger proactively or only when explicitly requested?
 - What tools does it need?
 - What should the output format be?
 
 **For hooks:**
-- Which events? (PreToolUse, PostToolUse, Stop, SessionStart, etc.)
-- What behavior — validate, block, modify, add context?
-- Prompt-based (LLM-driven) or command-based (deterministic script)?
+- Which events should trigger the hook? (PreToolUse, PostToolUse, Stop, SessionStart, etc.)
+- What behavior should it enforce? (validate, block, modify, add context)
+- Should it be prompt-based (Claude decides) or command-based (deterministic script)?
 
 **For MCP servers:**
-- What server type? (stdio for local processes, SSE for hosted OAuth services, HTTP for REST APIs)
+- What server type? (stdio for local processes, SSE for cloud services with OAuth, HTTP for REST APIs)
 - What authentication method?
 - What tools should be exposed?
 
-If you say "whatever you think is best," the skill provides specific recommendations based on common patterns and asks for explicit confirmation.
+If you say "whatever you think is best," the skill provides specific recommendations based on common patterns and asks for explicit confirmation. It does not assume defaults.
 
 **Output:** Detailed specifications for every component.
 
-**Phase 4: Implementation**
+##### Phase 4: Implementation
 
-The skill creates all plugin files following the specifications from Phase 3. Order of operations:
+The skill creates all plugin files following the specifications from Phase 3. It works through a defined order of operations:
 
 1. Create the plugin directory structure
-2. Create `plugin.json` manifest
-3. Create each component (see component schemas for exact formats)
+2. Create `plugin.json` manifest with the correct metadata
+3. Create each component following the appropriate schema
 4. Create `README.md` documenting the plugin
 
-**Implementation principles the skill follows:**
+During implementation, the skill follows important principles:
 
-- **Commands are instructions for Claude**, not messages to the user. The skill writes command files as directives ("Generate a report," "Analyze the data").
-- **Skills use progressive disclosure**: Lean SKILL.md body (under 3,000 words), detailed content in `references/`. The skill frontmatter description includes specific trigger phrases.
-- **Agents** need descriptions with `<example>` blocks showing triggering conditions, plus system prompts in the markdown body.
-- **Hooks** configuration goes in `hooks/hooks.json`. The skill uses `${CLAUDE_PLUGIN_ROOT}` for all script paths and prefers prompt-based hooks for complex logic.
-- **MCP configs** go in `.mcp.json` at plugin root. The skill uses `${CLAUDE_PLUGIN_ROOT}` for local server paths and documents required environment variables in README.
+- **Commands are instructions for Claude**, not messages to the user. Command files are written as directives ("Generate a test plan based on the user stories," "Analyze the test results and produce a summary").
+- **Skills use progressive disclosure.** The SKILL.md body stays lean (under 3,000 words), with detailed content placed in `references/` subdirectories that load on demand. The frontmatter description includes specific trigger phrases for reliable activation.
+- **Agents include example blocks** in their descriptions, showing concrete scenarios where the agent should be activated.
+- **Hooks use portable paths.** All script paths reference `${CLAUDE_PLUGIN_ROOT}` instead of hardcoded absolute paths, ensuring the plugin works regardless of where it is installed.
+- **MCP configurations use environment variables** for credentials (`${API_TOKEN}`), keeping secrets out of plugin files.
 
-**Phase 5: Review & Package**
+**Output:** All plugin files, created and ready for review.
 
-The skill:
+##### Phase 5: Review and Package
 
-1. Summarizes what was created — lists each component and its purpose
-2. Asks if you want any adjustments
-3. Runs `claude plugin validate <path-to-plugin-json>` to check for errors and warnings; fixes any issues found
-4. Packages the plugin as a `.plugin` file:
+The skill wraps up by:
+
+1. **Summarizing** what was created — listing each component and its purpose
+2. **Asking** if you want any adjustments (add a section to a skill, change a command's behavior, add another MCP connection)
+3. **Validating** the plugin by running `claude plugin validate` to check for structural errors
+4. **Packaging** the plugin as a `.plugin` file
+
+The packaging process creates a zip archive and copies it to the outputs directory:
 
 ```bash
-cd /path/to/plugin-dir && zip -r /tmp/plugin-name.plugin . -x "*.DS_Store" && cp /tmp/plugin-name.plugin /path/to/outputs/plugin-name.plugin
+cd /path/to/plugin-dir && zip -r /tmp/plugin-name.plugin . -x "*.DS_Store" && \
+  cp /tmp/plugin-name.plugin /path/to/outputs/plugin-name.plugin
 ```
 
-The skill always creates the zip in `/tmp/` first, then copies to the outputs folder. Writing directly to the outputs folder may fail due to permissions.
+The `.plugin` file appears in the chat as a rich preview where you can browse the plugin's files and accept it with a button click. Once accepted, the plugin is installed and immediately available.
 
-The skill uses the plugin name from `plugin.json` for the `.plugin` filename (e.g., if name is `code-reviewer`, output is `code-reviewer.plugin`).
+**Output:** A finished `.plugin` file delivered to the outputs directory.
 
-**Output:** A finished `.plugin` file delivered to the outputs directory, where it appears in the chat as a rich preview. You can browse the plugin's files and accept it with a button click.
+#### Practical Example: Building a Customer Onboarding Plugin
 
-#### Special Features and Patterns
+Here is a realistic walkthrough of the entire five-phase process:
 
-**Placeholder System for Distributable Plugins**
+**Discovery:** "I want to build a plugin that helps our customer success team onboard new enterprise clients. We have a 90-day onboarding process with milestones, and each client gets a customized implementation plan."
+
+Claude asks about tools (Salesforce for client data, Slack for communication), team size (5 CSMs), and whether the onboarding process is documented (yes, in Notion).
+
+**Component Planning:**
+
+```
+| Component | Count | Purpose                                              |
+|-----------|-------|------------------------------------------------------|
+| Skills    | 1     | Onboarding methodology and milestone frameworks      |
+| Commands  | 2     | /onboarding-plan, /milestone-check                   |
+| MCP       | 2     | Salesforce for client data, Notion for process docs  |
+```
+
+**Design:** Claude asks about plan structure, milestone definitions, what data to pull from Salesforce, and what the milestone check should report on.
+
+**Implementation:** Claude creates all files — the skill with onboarding frameworks, two commands with clear workflows, MCP connections, and a README.
+
+**Review and Package:** Claude shows a summary, you request one tweak (add a "risk flags" section to the onboarding plan), Claude makes the change, validates, and packages the `.plugin` file.
+
+Total time: approximately 15-25 minutes of conversation.
+
+#### The Placeholder System for Distributable Plugins
 
 By default, the skill does not use or ask about the `~~` placeholder pattern. It only introduces placeholders if you explicitly say you want people outside your organization to use the plugin.
 
-When placeholders are needed, the skill marks tool references with `~~` (e.g., `~~project tracker`, `~~chat`) and creates a `CONNECTORS.md` file at the plugin root explaining the system.
+When placeholders are needed, the skill marks tool references with `~~` (e.g., `~~project tracker`, `~~chat`) and creates a `CONNECTORS.md` file at the plugin root explaining the system. This makes the plugin tool-agnostic and ready for customization by other organizations using the `cowork-plugin-customizer` skill.
 
-**Progressive Disclosure in Skill Design**
+#### Example Plugin Structures
 
-When creating skills as components within a new plugin, the skill applies a three-tier loading strategy:
+The skill includes three complete example plugin structures as reference implementations:
 
-| Tier | Content | Size Guideline |
-|------|---------|---------------|
-| Metadata | name + description from frontmatter | ~100 words |
-| SKILL.md body | Core knowledge | 1,500-2,000 words (max 3,000) |
-| References | Detailed docs in `references/`, `examples/`, `scripts/` | Unlimited |
+**Minimal Plugin (meeting-notes):** A single command, no other components. Shows the simplest possible plugin — just a `plugin.json` and one command file that generates structured meeting notes from transcripts.
 
-This ensures skills are lightweight enough to load quickly but comprehensive enough to be useful.
+**Standard Plugin (code-quality):** A skill for coding standards, two commands (`/review` and `/fix-lint`), and GitHub MCP integration. Demonstrates how domain knowledge, user actions, and tool connections work together.
 
-**Component Schemas as Reference Material**
+**Full-Featured Plugin (engineering-workflow):** Skills, commands, an agent (ticket-analyzer), hooks (load team context on session start), MCP integration (Linear, GitHub, Slack), and tool-agnostic connectors with `CONNECTORS.md`. Shows every component type in use.
 
-The skill contains a reference file (`references/component-schemas.md`) with exhaustive specifications for every component type. This is the source of truth for file formats, frontmatter fields, syntax rules, and structural requirements.
-
-**Example Plugins as Templates**
-
-The skill includes three complete example plugins in `references/example-plugins.md`:
-
-1. **Minimal Plugin**: Single command, no other components
-2. **Standard Plugin**: Skill + commands + MCP integration
-3. **Full-Featured Plugin**: Skills, commands, agents, hooks, MCP integration, tool-agnostic connectors
-
-These serve as starting points and reference implementations.
+These examples serve as templates and reference implementations during the creation workflow.
 
 #### Best Practices for Using This Skill
 
-**Start with a clear problem statement.** The more specific you are in the discovery phase, the better the final plugin will be. "I need a plugin for marketing" is too vague. "I need a plugin that helps pharmaceutical marketing teams create compliant promotional materials and get them through MLR review" is specific enough to guide design decisions.
+**Start with a clear problem statement.** The more specific you are in the discovery phase, the better the final plugin will be. "I need a plugin for marketing" is too vague. "I need a plugin that helps pharmaceutical marketing teams create compliant promotional materials and get them through MLR review" gives the skill enough context to make smart design decisions.
 
-**Do not over-build on the first iteration.** Begin with the minimum viable set of components. A plugin with one well-crafted skill is more useful than one with five half-baked components. You can add more in version 0.2.0.
+**Do not over-build on the first iteration.** Begin with the minimum viable set of components. A plugin with one well-crafted skill and two focused commands is more useful than one with five half-baked components. You can always add more in a future iteration.
 
-**Clarify trigger phrases early.** For skills, be explicit about what phrases users would say that should activate them. "When should someone use this skill?" leads to better trigger descriptions than generic statements.
+**Think about trigger phrases early.** For skills, be explicit about what phrases users would naturally say that should activate the skill. "When should someone use this?" leads to better trigger descriptions than generic statements.
 
-**Think about tool integration upfront.** If your plugin needs to connect to external services, identify them in the discovery phase. MCP server setup requires knowing authentication methods, API endpoints, and required environment variables.
+**Identify tool integrations upfront.** If your plugin needs to connect to external services, mention them in the discovery phase. MCP server setup requires knowing authentication methods, API endpoints, and required environment variables.
 
-**Leverage reference files for depth.** If a skill requires detailed tables, code examples, or long reference guides, put those in `references/` rather than bloating the SKILL.md body.
+**Leverage reference files for depth.** If a skill requires detailed tables, code examples, regulatory checklists, or long reference guides, those belong in `references/` subdirectories, not in the main SKILL.md body. This keeps the core skill lean and context-efficient.
 
 #### Common Mistakes and How the Skill Prevents Them
 
 **Mistake:** Creating commands that read like documentation for the user rather than instructions for Claude.
-
 **Prevention:** The skill explicitly writes command content in imperative form, framing everything as directives Claude should follow.
 
 **Mistake:** Writing skill descriptions that are too generic to trigger reliably.
-
 **Prevention:** The skill asks for specific trigger phrases and ensures they are included in the description frontmatter, using quoted examples.
 
 **Mistake:** Hardcoding absolute paths in hooks or MCP configurations.
-
 **Prevention:** The skill always uses `${CLAUDE_PLUGIN_ROOT}` for intra-plugin references, ensuring portability.
 
 **Mistake:** Omitting required frontmatter fields or using incorrect formats.
-
 **Prevention:** The skill validates against the component schemas before writing files, ensuring structural correctness.
+
+---
 
 ### Skill 2: cowork-plugin-customizer
 
 #### What It Does
 
-The cowork-plugin-customizer skill adapts generic plugin templates to your specific organization by:
+The cowork-plugin-customizer skill adapts generic plugin templates to your specific organization. It does this by:
 
-- Finding all customization points marked with `~~` placeholders
-- Searching your connected knowledge sources (Slack, documents, email) to learn what tools and processes you use
+- Finding all customization points marked with `~~` placeholders in plugin files
+- Searching your connected knowledge sources (Slack, documents, email) to learn what tools and processes your organization uses
 - Systematically replacing placeholders with actual tool names and configuration values
-- Connecting MCP servers for the tools you identified
-- Delivering a customized `.plugin` file ready for use
+- Connecting MCP servers for the tools identified during customization
+- Delivering a customized `.plugin` file ready for installation
 
 This skill is the bridge between generic, tool-agnostic plugin templates (designed for broad distribution) and the specific reality of your organization's tool stack.
 
 #### When to Use It
 
-Use this skill when:
+**Use this skill when:**
 
 - You have a plugin template that uses `~~` placeholders for tool references
-- You want to adapt a generic workflow plugin to your company's actual tools (replacing `~~project tracker` with "Linear" or "Jira")
+- You want to adapt a generic workflow plugin to your company's actual tools (replacing "project tracker" with Linear, "chat" with Slack)
 - You need to configure organization-specific values (workspace IDs, channel names, project identifiers)
 - You have knowledge sources connected (Slack, email, documents) that can provide context about your organization
 
-Do not use this skill when:
+**Do not use this skill when:**
 
-- You are creating a plugin from scratch (use create-cowork-plugin instead)
+- You are creating a plugin from scratch (use `create-cowork-plugin` instead)
 - The plugin has no `~~` placeholders to customize
-- You are making structural changes (adding new skills or commands; fork the plugin instead)
+- You need to make structural changes like adding new skills or commands (fork the plugin instead — see Part V)
 
 #### How It Triggers
 
-The skill's description encodes:
+The skill triggers when you express intent to customize or personalize a plugin:
 
-> "Customize or personalize a Claude Code plugin for a specific organization's tools and workflows. Use when users want to customize a plugin, replace tool placeholders, or configure MCP servers for a plugin."
-
-Trigger phrases include:
-- "Customize this plugin"
-- "Replace tool placeholders"
-- "Personalize the plugin for my team"
+- "Customize this plugin for my organization"
+- "Replace tool placeholders in this plugin"
+- "Personalize the marketing plugin for my team"
 - "Configure this plugin for our tools"
+- "Adapt this plugin to our workflow"
 
-The skill also requires the Cowork desktop app environment. If triggered in an incompatible environment, it aborts with an error message explaining that customization is only available in Cowork mode.
+Like the creation skill, the customizer requires the Cowork desktop app environment. If triggered in an incompatible environment, it explains that customization requires Cowork mode with access to mounted plugin directories.
+
+#### Understanding the Placeholder System
+
+Before diving into the workflow, it helps to understand what the customizer is working with. When a plugin is designed to be shared across different organizations, its authors face a challenge: Company A uses Slack while Company B uses Microsoft Teams; Company A uses Jira while Company B uses Asana. How do you write one plugin that works for both?
+
+The answer is the `~~` placeholder system. In plugin files, references to external tools use a `~~` prefix followed by a category name:
+
+```markdown
+Check ~~project tracker for open tickets assigned to the user.
+Post a summary to ~~chat in the team channel.
+Pull conversion data from ~~product analytics.
+```
+
+These placeholders are generic. `~~project tracker` could mean Jira, Asana, Linear, Monday, or any other project management tool. The customizer skill's job is to replace these generic references with the specific tools your organization actually uses.
+
+You never see these placeholders during the customization process. The skill presents everything in plain language: "Which project management tool does your team use?" rather than "What should replace the `~~project tracker` placeholder?"
 
 #### The Four-Phase Workflow
 
-**Phase 1: Gather Context from Knowledge MCPs**
+##### Phase 1: Gather Context from Knowledge Sources
 
-Before asking you any questions, the skill searches your connected knowledge sources to learn about your organization. It uses strategies detailed in `references/search-strategies.md`.
+Before asking you any questions, the skill searches your connected knowledge sources to learn about your organization. It looks through:
 
-**What it gathers:**
-- Tool names for each `~~` placeholder category (project tracker, chat, design, analytics, etc.)
-- Organizational processes and workflows
-- Team conventions (naming patterns, status values, estimation scales)
-- Configuration values (workspace IDs, project names, team identifiers)
+1. **Chat and Slack history** — tool mentions, integration discussions, workflow conversations
+2. **Documents** — onboarding guides, tool setup instructions, internal handbooks
+3. **Email** — license notifications, admin setup emails, service invitations
 
-**Sources it searches:**
+The skill uses intelligent search strategies to find the information it needs. For example, when looking for your project management tool, it searches for terms like "Asana," "Jira," "Linear," "Monday," "sprint," and "tickets" across your connected sources. When looking for your chat platform, it searches for "Slack," "Teams," and "Discord."
 
-1. **Chat/Slack MCPs**: Tool mentions, integration discussions, workflow conversations
-2. **Document MCPs**: Onboarding docs, tool setup guides, internal handbooks
-3. **Email MCPs**: License notifications, admin setup emails, service invitations
-
-The skill uses category-to-keyword mappings to search efficiently:
+Here is the category-to-keyword mapping the skill uses:
 
 | Category | Search Keywords |
-|----------|-----------------|
-| Project management | `["asana", "jira", "linear", "monday", "tasks"]` |
-| Software coding | `["github", "gitlab", "bitbucket", "code"]` |
-| Chat | `["slack", "teams", "discord"]` |
-| Documents | `["google docs", "notion", "confluence"]` |
-| Calendar | `["google calendar", "calendar"]` |
-| Design/graphics | `["figma", "sketch", "design"]` |
-| Analytics/BI | `["datadog", "grafana", "analytics"]` |
-| CRM | `["salesforce", "hubspot", "crm"]` |
+|----------|----------------|
+| Project management | asana, jira, linear, monday, tasks |
+| Source control | github, gitlab, bitbucket, code |
+| Chat | slack, teams, discord |
+| Documents | google docs, notion, confluence |
+| Calendar | google calendar, calendar |
+| Email | gmail, outlook, email |
+| Design and graphics | figma, sketch, design |
+| Analytics and BI | datadog, grafana, analytics |
+| CRM | salesforce, hubspot, crm |
+| Wiki and knowledge base | notion, confluence, outline, wiki |
+| Data warehouse | bigquery, snowflake, redshift |
+| Conversation intelligence | gong, chorus, call recording |
 
 The skill records all findings for use in Phase 3.
 
-**Phase 2: Create Todo List from Customization Points**
+##### Phase 2: Create a Task List from Customization Points
 
-The skill runs `grep -rn '~~\w' /path/to/plugin --include='*.md' --include='*.json'` to find all lines containing `~~` placeholders.
+The skill scans the plugin files to find all lines containing `~~` placeholders. It groups them by theme and creates a task list with user-friendly descriptions that focus on learning about your organization:
 
-It groups them by theme and creates a todo list with user-friendly descriptions:
+- "Learn how standup prep works at your company" (not "Replace placeholders in commands/standup-prep.md")
+- "Find out which project management tool your team uses" (not "Determine value for ~~project tracker")
+- "Understand your team's sprint process and status conventions" (not "Replace ~~sprint-status values")
 
-- **Good**: "Learn how standup prep works at your company"
-- **Bad**: "Replace placeholders in commands/standup-prep.md"
+The task list is presented in plain language. You never see mentions of `~~` prefixes or customization points — those are implementation details the skill handles behind the scenes.
 
-The todo list is written in plain language, focusing on learning about the organization rather than technical file operations. Users never see mentions of `~~` prefixes or customization points — those are implementation details.
+##### Phase 3: Complete Task Items
 
-**Phase 3: Complete Todo Items**
+For each item in the task list, the skill determines how to resolve it:
 
-For each item in the todo list, the skill determines how to resolve it:
+**If knowledge sources provided a clear answer:** The skill applies the change directly without asking for confirmation. For example, if Slack messages consistently reference "Linear" when discussing tickets and projects, the skill replaces the project tracker placeholder with "Linear" automatically.
 
-**If knowledge MCPs provided a clear answer**: The skill applies the change directly without asking for confirmation. For example, if Slack messages consistently reference "Linear" when discussing tickets and projects, the skill replaces `~~project tracker` with "Linear" automatically.
+**If knowledge sources did not provide an answer:** The skill asks you directly using plain language. It does not assume "industry standard" defaults. If the answer is unclear, it asks.
 
-**If knowledge MCPs did not provide an answer**: The skill uses `AskUserQuestion` to ask directly. It does not assume "industry standard" defaults. If the answer is unclear, it asks.
+**If you skip or say you do not know:** The skill leaves the placeholder unchanged. The plugin can be customized again in a future session when more information is available.
 
-**If the user skips or says they do not know**: The skill leaves the `~~` placeholder unchanged. The plugin can be customized again in a future session when more information is available.
+**Types of changes made during this phase:**
 
-**Types of changes made:**
+1. **Tool name replacements**: generic "project tracker" becomes "Asana," generic "chat" becomes "Slack"
+2. **URL pattern updates**: `tickets.example.com/your-team/123` becomes `app.asana.com/0/PROJECT_ID/TASK_ID`
+3. **Organization-specific values**: workspace IDs, project names, team identifiers, channel names
+4. **Process-specific content**: sprint duration, estimation scales, status workflow stages, naming conventions
 
-1. **Placeholder replacements**: `~~Jira` → `Asana`, `~~your-org-channel` → `#engineering`
-2. **URL pattern updates**: `tickets.example.com/your-team/123` → `app.asana.com/0/PROJECT_ID/TASK_ID`
-3. **Organization-specific values**: Workspace IDs, project names, team identifiers
+##### Phase 4: Search for and Connect MCP Servers
 
-The skill applies changes using the Edit tool, ensuring exact string replacements.
+After all customization points have been resolved, the skill connects MCP servers for the tools that were identified. For each tool:
 
-**Phase 4: Search for Useful MCPs**
+1. **Search the MCP registry** for available connectors using category keywords
+2. **Present options** if multiple connectors exist for a category
+3. **Offer connection** — if the tool has an MCP server and you have not connected it yet, the skill presents a Connect button for you to authenticate
+4. **Update the plugin's MCP configuration** with the correct server URLs and settings
 
-After all customization points are resolved, the skill connects MCP servers for the tools that were identified. It follows the workflow in `references/mcp-servers.md`:
+The skill collects all MCP results and presents them together in a summary rather than one at a time. This gives you a clear picture of what was connected and what still needs attention.
 
-For each tool identified during customization:
-
-1. **Search the MCP registry**: `search_mcp_registry(keywords=[...])` using category keywords from the mapping table
-2. **Present results**: Show all matching MCPs with descriptions and tool lists
-3. **If not connected**: Use `suggest_connectors(directoryUuids=["uuid"])` to prompt OAuth or connection setup
-4. **Update plugin MCP config**: Add the connection to the plugin's `.mcp.json` file
-
-The skill checks `plugin.json` for a custom `mcpServers` path; if none is specified, it updates `.mcp.json` at the plugin root.
-
-**Note:** First-party integrations (Gmail, Google Calendar, Google Drive) are connected at the user level and do not need plugin `.mcp.json` entries.
-
-The skill collects all MCP results and presents them together in the summary output at the end — it does not present MCPs one at a time during the phase.
-
-**Packaging the Plugin**
-
-After all customizations are applied, the skill packages the plugin:
-
-```bash
-cd /path/to/plugin && zip -r /tmp/plugin-name.plugin . -x "setup/*" && cp /tmp/plugin-name.plugin /path/to/outputs/plugin-name.plugin
-```
-
-The skill excludes the `setup/` directory (if present) since it is no longer needed after customization. The `.plugin` file is delivered to the outputs directory as a rich preview.
-
-**Important naming rule:** The skill uses the original plugin directory name for the `.plugin` filename. It does not rename the plugin or its files during customization — only placeholder values and content are replaced.
+> **Note:** First-party integrations (Gmail, Google Calendar, Google Drive) are connected at the user level and do not need entries in the plugin's MCP configuration file.
 
 #### Summary Output
 
-After customization, the skill presents a summary of what was learned, grouped by source:
+After customization is complete, the skill presents a summary of what was learned, grouped by source:
 
 ```markdown
 ## From searching Slack
-- You use Asana for project management
+- Your team uses Linear for project management
 - Sprint cycles are 2 weeks
-- Team channel is #product-engineering
+- The engineering channel is #eng-team
 
 ## From searching documents
-- Story points use Fibonacci scale (1, 2, 3, 5, 8, 13)
-- Code review requires two approvals before merge
+- Story points use T-shirt sizes (S, M, L, XL)
+- Ticket statuses are: Backlog, In Progress, In Review, Done
 
 ## From your answers
-- Ticket statuses are: Backlog, In Progress, In Review, Done
-- Design files are managed in Figma workspace "Product 2025"
+- Your design tool is Figma
+- Your monitoring platform is Datadog
+
+## MCP Connections
+- Linear: Connected
+- Slack: Connected
+- Figma: Connected
+- Datadog: Not yet connected (requires API key setup)
 ```
 
-The skill then shows:
+If no knowledge sources were available and you had to answer questions manually, the skill adds a helpful note: "By the way, connecting sources like Slack or Microsoft Teams would let me find answers automatically next time you customize a plugin."
 
-**MCPs connected during setup**: Services that were connected during the customization process
+The skill then packages the customized plugin as a `.plugin` file and delivers it to the outputs directory for installation.
 
-**MCPs the user should still connect**: Additional services mentioned in the plugin that are not yet connected, with instructions
+#### Practical Example: Customizing the Engineering Workflow Plugin
 
-If no knowledge MCPs were available in Phase 1 and the user had to answer questions manually, the skill includes a note:
+Here is a realistic walkthrough:
 
-> By the way, connecting sources like Slack or Microsoft Teams would let me find answers automatically next time you customize a plugin.
+You say: "I want to customize the engineering-workflow plugin for our company."
 
-This educates users about the value of connecting knowledge sources.
+**Phase 1:** The skill searches your Slack history and finds mentions of Linear (project management), GitHub (source control), and references to "#eng-standup" channel. It searches your documents and finds an onboarding guide mentioning Datadog for monitoring and Figma for design.
 
-#### Special Features and Patterns
+**Phase 2:** The skill creates a task list:
+- Learn about your project management setup
+- Understand your standup process
+- Find out about your code review workflow
+- Identify your monitoring tools
 
-**Finding the Plugin Directory**
+**Phase 3:** Based on Slack findings, the skill automatically replaces "project tracker" with "Linear" and "chat" with "Slack." It asks you: "I found references to Datadog for monitoring. Is that your primary observability platform?" You confirm. It asks about estimation — your documents did not mention this. You tell it you use story points on a Fibonacci scale.
 
-To locate the plugin files, the skill runs:
+**Phase 4:** The skill connects Linear, GitHub, and Slack MCP servers, and notes that Datadog requires API keys you will need to configure separately.
 
-```bash
-find mnt/.local-plugins mnt/.plugins -type d -name "*<plugin-name>*"
-```
-
-If the plugin directory cannot be found, the skill recognizes the user is likely in a remote container and aborts with a helpful message:
-
-> "Customizing plugins is currently only available in the desktop app's Cowork mode."
-
-**Non-Technical Output Requirement**
-
-All user-facing output (todo list items, questions, summaries) must be in plain, non-technical language. The skill never mentions `~~` prefixes, placeholders, or customization points to the user. Everything is framed in terms of learning about the organization and its tools.
-
-**Preserving Plugin Identity**
-
-The skill never changes the plugin's `name` field in `plugin.json`, the plugin directory name, skill names, or file names. It only replaces placeholder values within file content. This ensures the plugin retains its identity across customization.
-
-**MCP Category Mapping**
-
-The skill contains a comprehensive category-to-keywords mapping in `references/mcp-servers.md`, covering:
-
-- Project management
-- Software coding
-- Chat
-- Documents
-- Calendar
-- Email
-- Design/graphics
-- Analytics/BI
-- CRM
-- Wiki/knowledge base
-- Data warehouse
-- Conversation intelligence
-
-This mapping enables efficient MCP discovery for the tools identified during customization.
+**Delivery:** A customized `.plugin` file with all generic references replaced with your actual tools, processes, and conventions.
 
 #### Best Practices for Using This Skill
 
-**Connect knowledge sources before customizing.** The more knowledge MCPs you have connected (Slack, email, internal documents), the fewer questions you will need to answer manually. The skill will find most answers automatically.
+**Connect knowledge sources first.** The more sources the skill can search, the fewer questions it needs to ask you. Connect Slack, email, and document sources before running the customizer.
 
-**Have organization context ready.** If you know you will need to provide workspace IDs, project names, or channel identifiers, gather that information before starting. The skill will ask for it.
+**Run it in the Cowork desktop app.** The customizer needs access to mounted plugin directories and the outputs folder. It cannot function in CLI-only or remote container environments.
 
-**Customize in multiple passes if needed.** If you do not know all the answers during the first customization, skip those items. Run the customization again later when you have more information.
+**Do not worry about getting everything right.** If you skip a question or are not sure about an answer, the skill leaves the placeholder unchanged. You can run the customizer again later when you have the information.
 
-**Review the summary carefully.** The skill shows what it learned and what changes it made. Verify the tool replacements and configuration values are correct before accepting the customized plugin.
-
-**Test the customized plugin immediately.** After customization, install the plugin and test its commands and skills to ensure everything works with your specific tool configuration.
-
-#### Common Mistakes and How the Skill Prevents Them
-
-**Mistake:** Providing generic answers when the skill needs specific values.
-
-**Prevention:** The skill asks follow-up questions when answers are too vague. For example, if you say "we use Slack," it asks for the specific channel name or workspace ID.
-
-**Mistake:** Assuming defaults that do not match the organization's reality.
-
-**Prevention:** The skill searches knowledge MCPs first and only falls back to asking when data is not found. It does not assume any defaults without confirmation.
-
-**Mistake:** Breaking the plugin by changing structural elements during customization.
-
-**Prevention:** The skill only replaces content within files; it never renames files, directories, or changes `name` fields in manifests.
-
-**Mistake:** Forgetting to connect MCP servers for identified tools.
-
-**Prevention:** The skill automatically searches for and suggests MCP connections in Phase 4, ensuring tools are not just named but actually connected.
-
-#### Comparing the Two Skills
-
-| Aspect | create-cowork-plugin | cowork-plugin-customizer |
-|--------|---------------------|------------------------|
-| **Starting point** | Nothing (build from scratch) | Existing plugin template |
-| **Primary activity** | Designing components and structure | Replacing placeholders and configuring |
-| **Phases** | 5 (Discovery, Planning, Design, Implementation, Packaging) | 4 (Gather Context, Create Todos, Complete Todos, Connect MCPs) |
-| **User interaction** | High (design decisions at every phase) | Medium (mostly automated if knowledge MCPs connected) |
-| **Output** | Net-new plugin | Customized version of existing plugin |
-| **When to use** | Unique need, no existing plugin fits | Generic plugin exists, needs organization-specific adaptation |
-| **Skill complexity** | Higher (encodes entire architecture) | Lower (focused on find-and-replace with context) |
-
-Both skills deliver the same final artifact type (a `.plugin` file), but the path to get there is very different.
+**Review the summary carefully.** The summary shows what the skill learned from your sources. If something is wrong (it found a mention of Jira from two years ago but your team switched to Linear), let it know and it will correct the change.
 
 ---
 
-## Part IV: Connectors and MCP Integration
+## Part IV: Connectors & MCP Servers
 
-### A Critical Distinction: This Plugin Has No MCP Servers
+### This Plugin Has No MCP Servers
 
-The cowork-plugin-management plugin does not connect to any external services itself. It has no `.mcp.json` file and no MCP server configurations. This is because the plugin management plugin operates on plugin files and directory structures, not on external tools.
+The plugin management plugin does not connect to any external tools or services. It has no `.mcp.json` file and no MCP server configurations. This makes sense when you consider what the plugin does: it builds and customizes other plugins, which is an entirely local operation involving file creation and manipulation.
 
-However, this plugin extensively **manages MCP configurations for other plugins**. The customization workflow (Phase 4 of the cowork-plugin-customizer skill) includes MCP discovery, connection setup, and `.mcp.json` file generation.
+However, MCP is a central concept in the plugin management plugin because the plugins you *create* and *customize* often include MCP server connections. Understanding how MCP works is essential for using both skills effectively.
 
-### Understanding MCP Integration in the Plugin Management Context
+### What Are MCP Servers?
 
-When you customize a plugin using the cowork-plugin-customizer skill, one of the key outputs is a properly configured `.mcp.json` file that connects the plugin to the external tools your organization uses.
+MCP (Model Context Protocol) servers are bridges between Claude and external tools and services. They allow Claude to read data from and take actions in your existing software stack — your CRM, project tracker, design tools, analytics platform, and so on.
 
-#### The MCP Discovery Workflow
+When a plugin includes MCP server configurations, Claude can:
+- Pull real data from your tools instead of asking you to copy-paste it
+- Take actions in external services (create tickets, post messages, update records)
+- Authenticate once and maintain persistent connections
 
-The skill follows this process in Phase 4:
+Without MCP connections, plugins still work. Claude will ask you for any information it would have pulled from tools automatically. MCP makes the experience smoother but is never strictly required.
 
-**Step 1: Identify Tools**
+### The Three Types of MCP Servers
 
-Based on the customization points resolved in Phase 3, the skill has a list of tools your organization uses:
-- Project tracker: Linear
-- Chat: Slack
-- Design: Figma
-- Analytics: Amplitude
-- CRM: HubSpot
+When building or customizing plugins, you will encounter three server types:
 
-**Step 2: Search the MCP Registry**
+#### stdio: Local Process Servers
 
-For each tool, the skill calls `search_mcp_registry(keywords=[...])` using the category-to-keywords mapping:
-
-```json
-{
-  "keywords": ["linear", "tasks", "project management"]
-}
-```
-
-The search returns up to 10 results, each with:
-- `name`: Display name (e.g., "Linear")
-- `description`: One-line description
-- `tools`: List of tool names the MCP provides
-- `url`: MCP endpoint URL
-- `directoryUuid`: UUID for connection setup
-- `connected`: Boolean indicating if already connected
-
-**Step 3: Present Results and Gather Choices**
-
-The skill shows all matching MCPs with descriptions and asks which one you want to use. For well-known tools, the choice is usually obvious.
-
-**Step 4: Connect if Needed**
-
-If the MCP is not already connected, the skill calls:
-
-```json
-{
-  "directoryUuids": ["uuid-from-search"]
-}
-```
-
-This displays a Connect button in the UI. You complete OAuth or authentication, and the connection is established.
-
-**Step 5: Update the Plugin's MCP Configuration**
-
-The skill reads the plugin's `plugin.json` to check for a custom `mcpServers` path:
-
-```json
-{
-  "mcpServers": "./config/servers.json"
-}
-```
-
-If present, it updates that file. If not, it updates `.mcp.json` at the plugin root. If the `mcpServers` field points only to `.mcpb` files (bundled servers), the skill creates a new `.mcp.json` at the root.
-
-The skill adds the MCP using the `url` from the search results:
+These run a program on your local machine. Used for custom servers, local tools, or when you need to run code alongside Claude.
 
 ```json
 {
   "mcpServers": {
-    "linear": {
-      "type": "http",
-      "url": "https://mcp.linear.app/mcp"
-    },
-    "slack": {
-      "type": "http",
-      "url": "https://slack.mcp.claude.com/mcp"
-    }
-  }
-}
-```
-
-#### MCP Server Types and Configuration Formats
-
-The skill understands three server types:
-
-**stdio — Local Process Servers**
-
-Used for custom servers running on your local machine:
-
-```json
-{
-  "mcpServers": {
-    "my-local-tool": {
+    "my-local-server": {
       "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/tool.js"],
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/server.js"],
       "env": {
         "API_KEY": "${API_KEY}"
       }
@@ -795,9 +759,11 @@ Used for custom servers running on your local machine:
 }
 ```
 
-**SSE — Hosted Servers with OAuth**
+**When to use:** Custom internal tools, local databases, programs that need to run on your machine.
 
-Used for cloud services that authenticate via OAuth:
+#### SSE: Hosted Servers with OAuth
+
+These connect to cloud-hosted services using OAuth authentication (the "Sign in with..." flow). Most major SaaS integrations use this type.
 
 ```json
 {
@@ -810,9 +776,11 @@ Used for cloud services that authenticate via OAuth:
 }
 ```
 
-**HTTP — REST API Servers**
+**When to use:** Cloud services that offer OAuth sign-in (Asana, Linear, and similar platforms).
 
-Used for REST APIs with token-based auth:
+#### HTTP: REST API Servers
+
+These connect to HTTP endpoints, often with token-based authentication. Used for REST APIs and services that provide MCP endpoints.
 
 ```json
 {
@@ -825,954 +793,622 @@ Used for REST APIs with token-based auth:
 }
 ```
 
-The skill chooses the appropriate type based on the MCP registry results and applies it correctly in the configuration file.
+**When to use:** SaaS platforms with MCP endpoints (Slack, HubSpot, Notion, Figma, and many others).
 
-#### First-Party Integrations Exception
+### Choosing the Right Server Type
 
-Gmail, Google Calendar, and Google Drive are connected at the user level, not the plugin level. The skill does not add these to plugin `.mcp.json` files even if they are mentioned during customization.
+| Scenario | Recommended Type | Why |
+|----------|-----------------|-----|
+| Major SaaS product (Slack, HubSpot, Notion) | HTTP or SSE | Cloud-hosted, managed by the vendor |
+| Service with "Sign in with..." OAuth | SSE | Handles authentication automatically |
+| Custom internal tool | stdio | Runs locally, full control over the process |
+| REST API with token authentication | HTTP | Simple header-based auth |
+| Local database or file system tool | stdio | Needs direct machine access |
 
-#### Environment Variable Expansion
+### The .mcp.json Configuration File
 
-The skill uses `${CLAUDE_PLUGIN_ROOT}` for all intra-plugin path references and `${VAR_NAME}` for user environment variables:
+MCP server connections are defined in a JSON file, typically `.mcp.json` at the plugin root. The create-cowork-plugin skill creates this file for you when your plugin needs external connections. The customizer skill updates it when connecting your organization's specific tools.
+
+Here is an example of a fully configured `.mcp.json` from a customized engineering plugin:
 
 ```json
 {
   "mcpServers": {
-    "custom-api": {
+    "github": {
       "type": "http",
-      "url": "https://api.example.com/mcp",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "asana": {
+      "type": "sse",
+      "url": "https://mcp.asana.com/sse"
+    },
+    "slack": {
+      "type": "http",
+      "url": "https://slack.mcp.claude.com/mcp"
+    },
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "datadog": {
+      "type": "http",
+      "url": "https://api.datadoghq.com/mcp",
       "headers": {
-        "Authorization": "Bearer ${MY_API_TOKEN}"
+        "DD-API-KEY": "${DATADOG_API_KEY}",
+        "DD-APPLICATION-KEY": "${DATADOG_APP_KEY}"
       }
     }
   }
 }
 ```
 
-When the skill adds environment variable references, it documents them in the plugin's README.
+### Portable Paths and Environment Variables
+
+Two important patterns keep MCP configurations portable and secure:
+
+**`${CLAUDE_PLUGIN_ROOT}`** resolves to the plugin's actual directory path at runtime. Use this for all references to files within the plugin. This ensures the plugin works regardless of where it is installed.
+
+**`${ENV_VAR_NAME}`** pulls values from the user's environment. Use this for credentials, API keys, and any values that differ between users or environments:
+
+```json
+{
+  "headers": {
+    "Authorization": "Bearer ${MY_API_TOKEN}"
+  }
+}
+```
+
+Never hardcode credentials or absolute paths in plugin files. Environment variables keep secrets out of plugin files, and `${CLAUDE_PLUGIN_ROOT}` keeps paths portable.
 
 ### The Category-to-Keywords Mapping
 
-The skill maintains a comprehensive mapping in `references/mcp-servers.md`:
+The customizer skill uses a category-to-keywords mapping to search the MCP registry for appropriate connectors. This is how it knows to search for "asana," "jira," and "linear" when looking for a project management tool, or "figma," "sketch," and "design" when looking for a design tool.
 
-| Category | Placeholder | Keywords |
-|----------|-------------|----------|
-| Project management | `~~project tracker` | asana, jira, linear, monday, tasks |
-| Software coding | `~~source control` | github, gitlab, bitbucket, code |
-| Chat | `~~chat` | slack, teams, discord |
-| Documents | `~~documents` | google docs, notion, confluence |
-| Calendar | `~~calendar` | google calendar, calendar |
-| Email | `~~email` | gmail, outlook, email |
-| Design/graphics | `~~design` | figma, sketch, design |
-| Analytics/BI | `~~analytics` | datadog, grafana, analytics |
-| CRM | `~~CRM` | salesforce, hubspot, crm |
-| Wiki/knowledge base | `~~wiki` | notion, confluence, outline, wiki |
-| Data warehouse | `~~data warehouse` | bigquery, snowflake, redshift |
-| Conversation intelligence | `~~call recording` | gong, chorus, call recording |
+The complete mapping:
 
-This mapping ensures efficient MCP discovery regardless of how placeholders are named in the plugin template.
+| Category | Keywords Used for Search |
+|----------|------------------------|
+| Project management | asana, jira, linear, monday, tasks |
+| Software coding | github, gitlab, bitbucket, code |
+| Chat | slack, teams, discord |
+| Documents | google docs, notion, confluence |
+| Calendar | google calendar, calendar |
+| Email | gmail, outlook, email |
+| Design and graphics | figma, sketch, design |
+| Analytics and BI | datadog, grafana, analytics |
+| CRM | salesforce, hubspot, crm |
+| Wiki and knowledge base | notion, confluence, outline, wiki |
+| Data warehouse | bigquery, snowflake, redshift |
+| Conversation intelligence | gong, chorus, call recording |
 
-### How MCP Configuration Differs from Typical Plugins
+When you build a new plugin with the creation skill and include MCP servers, the skill uses this same mapping to help you identify which server type and endpoint to configure.
 
-Most plugins include an `.mcp.json` file with pre-configured connections to specific services. For example, the marketing plugin comes with connections to Slack, Canva, Figma, HubSpot, Amplitude, Notion, Ahrefs, Similarweb, and Klaviyo.
+### How This Differs from Domain Plugins
 
-The plugin management plugin does not have such a file because:
+Most domain plugins (marketing, sales, data) include pre-configured MCP connections to tools relevant to their domain. The marketing plugin connects to HubSpot, Amplitude, Slack, and others. The sales plugin connects to Salesforce, Gong, and LinkedIn.
 
-1. It does not need external service integrations to perform its function (creating and customizing plugins)
-2. It operates on local files and directory structures
-3. Its purpose is to **create** `.mcp.json` files for other plugins, not to use them itself
+The plugin management plugin has no MCP connections because it does not interact with external services during its own operation. However, it is deeply knowledgeable about MCP. Both skills understand server types, authentication methods, configuration formats, and the MCP registry. They use this knowledge to:
 
-This is an important architectural distinction. The plugin management plugin is a development tool, not a domain-specific workflow plugin.
+- Include correct MCP configurations when creating new plugins
+- Connect appropriate MCP servers when customizing existing plugins
+- Configure environment variables and authentication for different server types
+
+In short: this plugin does not *use* MCP, but it *creates and configures* MCP connections for the plugins it builds.
 
 ---
 
-## Part V: Workflows and Use Cases
+## Part V: Customization & Extension
 
-This section provides detailed, step-by-step workflows for common plugin management tasks. Each workflow includes expected inputs, process steps, decision points, and outputs.
+This section covers plugin architecture in depth and explains how to extend existing plugins. While the plugin management plugin's skills handle creation and customization through guided workflows, understanding the underlying architecture gives you the knowledge to make informed decisions during those workflows and to extend plugins on your own.
 
-### Workflow 1: Creating a Plugin from Scratch
+### Plugin Architecture: What a Plugin Actually Is
 
-**Scenario:** You are a compliance manager at a pharmaceutical company. You want to create a plugin that helps the marketing team create promotional materials that comply with FDA regulations and get them through Medical-Legal-Regulatory (MLR) review.
+A plugin is a self-contained directory that extends what Claude can do inside the Cowork desktop application. Think of it like an expansion pack: it gives Claude specialized knowledge, new commands you can invoke, connections to external services, and even automated behaviors that trigger on certain events.
 
-**Step 1: Initiate the Conversation**
+Plugins are designed for business users. You do not need to be a software developer to use, customize, or even create one. Every plugin is made up of plain-text files (mostly Markdown and JSON) organized in a specific directory structure. If you can edit a document and follow a template, you can work with plugins.
 
-Start a conversation in Claude Cowork and express your intent:
+**What plugins can contain:**
 
-> "I want to create a plugin for pharmaceutical marketing compliance. It should help our team create promotional content that follows FDA rules and passes MLR review."
+| Component | What It Does | Analogy |
+|-----------|-------------|---------|
+| Commands | Actions you trigger with a slash (e.g., `/campaign-plan`) | Keyboard shortcuts for complex tasks |
+| Skills | Domain knowledge Claude loads when relevant topics come up | Reference books Claude can consult |
+| Agents | Autonomous specialists for multi-step tasks | Dedicated team members with specific expertise |
+| Hooks | Automatic behaviors triggered by events | Standing instructions that always apply |
+| MCP Servers | Connections to external tools and services | Integrations with your existing software stack |
 
-The create-cowork-plugin skill triggers and enters Discovery phase.
-
-**Step 2: Discovery Phase**
-
-The skill asks clarifying questions:
-
-- **What should this plugin do?** → Help create compliant promotional materials for pharma products and guide them through MLR review
-- **Who will use it?** → Marketing team members creating content for prescription products
-- **What tools does it integrate with?** → Our MLR review system and regulatory database
-- **Similar workflows?** → We have a manual checklist we currently use
-
-You provide answers, and the skill summarizes:
-
-> "This plugin will provide regulatory compliance guidance for pharmaceutical promotional content, automate fair balance checks, generate MLR review packages, and connect to your regulatory database. Is that correct?"
-
-You confirm.
-
-**Step 3: Component Planning**
-
-The skill proposes a component plan:
-
-| Component | Count | Purpose |
-|-----------|-------|---------|
-| Skills | 2 | FDA promotional rules, MLR review process |
-| Commands | 3 | /mlr-package, /fair-balance-check, /compliance-review |
-| Agents | 0 | Not needed |
-| Hooks | 1 | Validate all content writes for compliance |
-| MCP | 1 | Connect to regulatory database |
-
-You confirm the plan.
-
-**Step 4: Design Phase**
-
-The skill asks detailed questions for each component:
-
-**For the regulatory compliance skill:**
-- **What topics trigger this?** → Creating promotional content, reviewing materials for compliance, checking fair balance
-- **What knowledge does it cover?** → FDA Prescription Drug Advertising rules, fair balance requirements, off-label restrictions
-- **Reference files?** → Yes, detailed FDA guidance and our internal checklist
-
-**For the /mlr-package command:**
-- **What inputs?** → Path to the content file
-- **What tools?** → Read (to read the file), Write (to generate the package), and the regulatory database MCP
-- **Output?** → A formatted MLR review package with all required sections
-
-**For the PreToolUse hook:**
-- **Which tools should it monitor?** → Write and Edit
-- **What should it check?** → Verify no off-label claims, ensure fair balance is present if efficacy claims are made
-- **Prompt-based or command-based?** → Prompt-based for nuanced evaluation
-
-**For the regulatory database MCP:**
-- **Server type?** → HTTP (REST API with token authentication)
-- **Authentication?** → Bearer token in header
-- **Required environment variables?** → `REGULATORY_DB_API_TOKEN`
-
-You provide answers, and the skill confirms the specification.
-
-**Step 5: Implementation**
-
-The skill creates all files:
+Every plugin follows the same directory structure:
 
 ```
-pharma-compliance/
+plugin-name/
 ├── .claude-plugin/
-│   └── plugin.json
-├── commands/
-│   ├── mlr-package.md
-│   ├── fair-balance-check.md
-│   └── compliance-review.md
-├── skills/
-│   ├── regulatory-compliance/
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       ├── fda-prescription-drug-advertising.md
-│   │       └── mlr-checklist.md
-│   └── mlr-review-process/
-│       ├── SKILL.md
-│       └── references/
-│           └── review-workflow.md
-├── hooks/
+│   └── plugin.json           # Required: plugin identity and metadata
+├── commands/                 # Slash commands (Markdown files)
+│   ├── do-something.md
+│   └── check-something.md
+├── skills/                   # Domain knowledge (subdirectories)
+│   └── skill-name/
+│       ├── SKILL.md          # Required per skill
+│       ├── references/       # Detailed reference documents
+│       ├── scripts/          # Utility scripts
+│       ├── assets/           # Templates, configuration files
+│       └── examples/         # Sample data, example configurations
+├── agents/                   # Autonomous specialist definitions
+│   └── agent-name.md
+├── hooks/                    # Event-driven automation
 │   └── hooks.json
-├── .mcp.json
-└── README.md
+├── .mcp.json                 # External service connections
+├── CONNECTORS.md             # Tool-category documentation
+├── README.md                 # Plugin documentation
+└── LICENSE                   # License information
 ```
 
-The skill shows you a preview of key files and asks if you want any changes.
+The only truly required file is `.claude-plugin/plugin.json`. Everything else is optional — only create directories for components the plugin actually uses.
 
-**Step 6: Packaging**
+**Key structural rules:**
 
-You confirm the plugin looks good. The skill:
+- The `.claude-plugin/` folder and its `plugin.json` file are always required
+- Component directories (`commands/`, `skills/`, `agents/`) sit at the plugin root, not inside `.claude-plugin/`
+- Only create directories for components the plugin actually uses
+- All directory and file names use kebab-case (lowercase words separated by hyphens)
 
-1. Runs `claude plugin validate pharma-compliance/.claude-plugin/plugin.json`
-2. Fixes a warning about a missing description field
-3. Packages the plugin: `cd pharma-compliance && zip -r /tmp/pharma-compliance.plugin . && cp /tmp/pharma-compliance.plugin /path/to/outputs/`
-4. Delivers `pharma-compliance.plugin` to the outputs directory
+**Two layout patterns exist across the Cowork plugin library:**
 
-You see a rich preview in the chat with the plugin structure. You click Accept, and the plugin is installed.
+| Pattern | Example | Structure |
+|---------|---------|-----------|
+| Versioned | `marketing/1.0.0/` | Plugin contents live inside a version subfolder |
+| Direct | `customer-support/` | Plugin contents live at the plugin root |
 
-**Step 7: Testing**
+Both patterns work identically. The versioned pattern is useful when multiple versions of a plugin coexist on the same system.
 
-You test the plugin:
+### The plugin.json Manifest
 
-- Type `/mlr-package sample-email.md` — it generates a properly formatted MLR review package
-- Try writing promotional content — the PreToolUse hook validates it and flags an off-label claim before allowing the write
-- Ask "What are the fair balance requirements?" — the regulatory-compliance skill activates and provides detailed guidance
-
-The plugin works as expected.
-
-**Outcome:** A fully functional compliance plugin tailored to your organization's needs, created in a single session without writing any code manually.
-
----
-
-### Workflow 2: Customizing a Generic Plugin Template
-
-**Scenario:** You downloaded the generic "engineering" plugin, which uses `~~` placeholders for tools. You need to customize it for your team, which uses Linear for project management, GitHub for code, Slack for chat, and Datadog for monitoring.
-
-**Step 1: Initiate Customization**
-
-> "I need to customize the engineering plugin for my team's tools."
-
-The cowork-plugin-customizer skill triggers.
-
-**Step 2: Gather Context (Automated)**
-
-The skill searches your connected knowledge sources:
-
-**From Slack:**
-- Finds mentions of "Linear" when discussing tickets
-- Finds "GitHub" when discussing pull requests
-- Identifies "#engineering" as the team channel
-- Sees references to "Datadog dashboards"
-
-**From documents:**
-- Finds an onboarding doc mentioning "Linear workspace: Acme Engineering"
-- Finds a runbook referencing "Datadog API key setup"
-
-The skill records all findings.
-
-**Step 3: Create Todo List**
-
-The skill scans the plugin:
-
-```bash
-grep -rn '~~\w' /path/to/engineering --include='*.md' --include='*.json'
-```
-
-Finds placeholders:
-- `~~project tracker` (in 5 files)
-- `~~source control` (in 3 files)
-- `~~chat` (in 2 files)
-- `~~monitoring` (in 1 file)
-- `~~your-workspace-id` (in 1 file)
-
-Creates todo list:
-- Learn what project tracking tool your team uses
-- Learn what source control system your team uses
-- Learn what chat platform your team uses
-- Learn what monitoring tool your team uses
-- Identify your Linear workspace ID
-
-**Step 4: Complete Todo Items**
-
-For each item, the skill checks Phase 2 findings:
-
-- **Project tracker** → Found "Linear" in Slack and docs → Replaces `~~project tracker` with "Linear" automatically
-- **Source control** → Found "GitHub" in Slack → Replaces `~~source control` with "GitHub"
-- **Chat** → Found "Slack" and "#engineering" → Replaces `~~chat` with "Slack"
-- **Monitoring** → Found "Datadog" → Replaces `~~monitoring` with "Datadog"
-- **Workspace ID** → Found "Acme Engineering" in docs but no UUID → Uses AskUserQuestion:
-
-> "What is your Linear workspace ID? I found references to 'Acme Engineering' but need the workspace UUID for API calls."
-
-You provide: `acme-engineering-a1b2c3`
-
-The skill replaces `~~your-workspace-id` with `acme-engineering-a1b2c3`.
-
-**Step 5: Connect MCPs**
-
-The skill searches for MCP servers:
-
-**Linear:**
-- Searches: `search_mcp_registry(keywords=["linear", "tasks", "project management"])`
-- Finds Linear MCP (not connected)
-- Calls `suggest_connectors(directoryUuids=["linear-uuid"])`
-- You authenticate via OAuth
-- Adds to `.mcp.json`:
+Located at `.claude-plugin/plugin.json`, this file tells the system who the plugin is. It is the only file that every plugin must have:
 
 ```json
 {
-  "mcpServers": {
-    "linear": {
-      "type": "sse",
-      "url": "https://mcp.linear.app/sse"
-    }
-  }
-}
-```
-
-**GitHub:**
-- Searches and finds GitHub MCP (already connected at user level)
-- Adds to `.mcp.json`:
-
-```json
-{
-  "github": {
-    "type": "http",
-    "url": "https://api.githubcopilot.com/mcp/"
-  }
-}
-```
-
-**Slack:**
-- Searches and finds Slack MCP (already connected)
-- Adds to `.mcp.json`
-
-**Datadog:**
-- Searches and finds Datadog MCP (not connected)
-- You connect it
-- Adds to `.mcp.json` with environment variables:
-
-```json
-{
-  "datadog": {
-    "type": "http",
-    "url": "https://api.datadoghq.com/mcp",
-    "headers": {
-      "DD-API-KEY": "${DATADOG_API_KEY}",
-      "DD-APPLICATION-KEY": "${DATADOG_APP_KEY}"
-    }
-  }
-}
-```
-
-**Step 6: Summary and Packaging**
-
-The skill presents a summary:
-
-```markdown
-## From searching Slack
-- You use Linear for project management
-- You use GitHub for source control
-- You use Slack for team chat (#engineering channel)
-- You use Datadog for monitoring
-
-## From searching documents
-- Linear workspace is "Acme Engineering"
-
-## From your answers
-- Linear workspace ID is acme-engineering-a1b2c3
-
-## MCPs connected during setup
-- Linear (authenticated via OAuth)
-- Datadog (authenticated via OAuth)
-
-## MCPs already connected
-- GitHub (already configured at user level)
-- Slack (already configured at user level)
-
-## Required environment variables
-Add these to your environment:
-- DATADOG_API_KEY
-- DATADOG_APP_KEY
-```
-
-The skill packages the plugin:
-
-```bash
-cd engineering && zip -r /tmp/engineering.plugin . -x "setup/*" && cp /tmp/engineering.plugin /path/to/outputs/engineering.plugin
-```
-
-You receive `engineering.plugin` as a rich preview and accept it.
-
-**Outcome:** A fully customized engineering plugin with all tool placeholders replaced, MCP servers connected, and organization-specific values configured, delivered in minutes with minimal manual input.
-
----
-
-### Workflow 3: Forking and Extending an Existing Plugin
-
-**Scenario:** The marketing plugin is great, but you are in the pharmaceutical industry and need to add regulatory compliance features. You decide to fork it, add pharma-specific skills, and distribute the forked version to your team.
-
-**Step 1: Copy the Plugin**
-
-You copy the marketing plugin directory:
-
-```bash
-cp -r marketing/ marketing-pharma/
-```
-
-**Step 2: Update Plugin Identity**
-
-Edit `marketing-pharma/.claude-plugin/plugin.json`:
-
-```json
-{
-  "name": "marketing-pharma",
+  "name": "my-plugin",
   "version": "1.0.0",
-  "description": "Marketing plugin adapted for pharmaceutical and life sciences teams, with regulatory compliance and MLR review capabilities.",
+  "description": "Brief explanation of what the plugin does.",
   "author": {
-    "name": "Your Organization"
+    "name": "Your Name or Organization"
   }
 }
 ```
 
-**Step 3: Add Pharma-Specific Skills**
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Unique identifier. Lowercase, hyphens, no spaces (kebab-case). |
+| `version` | No | Semver format: MAJOR.MINOR.PATCH (e.g., `1.0.0`). |
+| `description` | No | One to two sentence explanation of the plugin's purpose. |
+| `author` | No | Object with `name` field identifying the creator. |
+| `homepage` | No | URL to the plugin's website or documentation. |
+| `repository` | No | URL to the source code repository. |
+| `license` | No | License identifier (e.g., `MIT`, `Apache-2.0`). |
+| `keywords` | No | Array of strings for discovery (e.g., `["marketing", "campaigns"]`). |
 
-Initiate a conversation with Claude:
+Custom component paths can be specified in `plugin.json` to supplement (not replace) automatic component discovery. For example, you can point to a non-standard directory for commands or hooks.
 
-> "I forked the marketing plugin to create marketing-pharma. I want to add two new skills: regulatory-compliance and mlr-review-process. Can you help me create them?"
+### The Placeholder System and CONNECTORS.md
 
-The create-cowork-plugin skill partially triggers (you are not creating a full plugin, just components). You guide the conversation to create the skills:
-
-**regulatory-compliance skill:**
-
-```markdown
----
-name: regulatory-compliance
-description: >
-  Pharmaceutical and medical device regulatory compliance for marketing
-  materials. Use when reviewing promotional content for compliance,
-  preparing materials for MLR review, checking fair balance requirements,
-  or ensuring FDA/EMA compliance in marketing communications.
----
-
-# Regulatory Compliance for Life Sciences Marketing
-
-## Fair Balance Requirements
-
-All promotional materials must present a fair balance between efficacy
-claims and risk information...
-
-[... detailed content ...]
-```
-
-**mlr-review-process skill:**
+When a plugin is designed to be shared across different organizations, it uses `~~` placeholders for tool references:
 
 ```markdown
----
-name: mlr-review-process
-description: >
-  Medical-Legal-Regulatory (MLR) review workflow and requirements. Use
-  when preparing materials for MLR review, understanding review cycles,
-  or coordinating with Medical Affairs, Legal, and Regulatory teams.
----
-
-# MLR Review Process
-
-## Review Workflow
-
-1. **Draft creation** — Marketing creates content using approved claims
-2. **Medical review** — Medical affairs verifies clinical accuracy
-3. **Legal review** — Legal checks regulatory compliance and risk
-4. **Regulatory review** — Regulatory confirms alignment with approved labeling
-5. **Final approval** — All three functions sign off
-
-[... detailed content ...]
+Check ~~project tracker for open tickets.
+Post a summary to ~~chat in the team channel.
 ```
 
-You create these skills in `marketing-pharma/skills/`.
-
-**Step 4: Add Pharma-Specific Commands**
-
-You add `/mlr-review` and `/congress-plan` commands:
+These placeholders are documented in a `CONNECTORS.md` file at the plugin root:
 
 ```markdown
----
-description: Generate an MLR review package for promotional content
-argument-hint: <content-file-path>
----
+# Connectors
 
-Read the content at @$1 and generate a complete MLR review package.
+## How tool references work
 
-Include these sections:
-1. **Content Classification** — branded promotional, unbranded, reminder
-2. **Claims Analysis** — list all efficacy and safety claims with references
-3. **Fair Balance Check** — verify risk info is appropriately prominent
-4. **Indication Accuracy** — compare to approved prescribing information
-5. **Reviewer Checklist** — Medical, Legal, and Regulatory sign-off sections
+Plugin files use `~~category` as a placeholder for whatever tool the user
+connects in that category. Plugins are tool-agnostic.
 
-[... detailed instructions ...]
+## Connectors for this plugin
+
+| Category | Placeholder | Included servers | Other options |
+|----------|-------------|-----------------|---------------|
+| Chat | `~~chat` | Slack | Microsoft Teams, Discord |
+| Project tracker | `~~project tracker` | Linear | Asana, Jira, Monday |
 ```
 
-**Step 5: Modify Existing Skills**
+**"Included servers"** are pre-configured in the plugin's `.mcp.json` file. **"Other options"** are alternatives that work but require the user to configure the connection manually.
 
-Edit `skills/campaign-planning/SKILL.md` to add pharmaceutical campaign types:
+**When to use placeholders:** Only when building a plugin intended for distribution to people outside your organization. If the plugin is for internal use and everyone uses the same tools, skip placeholders and reference your tools directly.
 
-```markdown
-## Life Sciences Campaign Types
+### Three Approaches to Extending a Plugin
 
-### Disease Awareness Campaigns
-- **Unbranded** — educate about the disease without mentioning the product
-- **Branded** — connect the disease to your product's indication
+There are three ways to add capabilities to an existing plugin. Each has different trade-offs. Choose the approach that fits your situation.
 
-### Congress and Conference Marketing
-- **Pre-congress** — abstract submission support, booth planning
-- **At-congress** — booth strategy, KOL meetings, symposium support
-- **Post-congress** — follow-up campaigns, content repurposing
+#### Approach A: Direct Plugin Modification
 
-[... more pharma-specific content ...]
+Edit the plugin's files directly — add content to existing skills, create new command files, modify the MCP configuration.
+
+**How it works:** Open the plugin directory and change its files. Add a section to a skill's `SKILL.md`, drop a new command file into `commands/`, or add a new MCP server to `.mcp.json`. Changes take effect immediately.
+
+**When to use:**
+- Quick personal experiments
+- Testing an idea before committing to a bigger change
+- Small additions that do not fundamentally alter the plugin
+
+**Pros:**
+- Fast (minutes to implement)
+- No installation or setup required
+- Changes take effect immediately
+
+**Cons:**
+- Plugin updates may overwrite your changes
+- No clean separation between original and customized content
+- Hard to track what you changed versus what came with the plugin
+
+**Example:** Adding a pharmaceutical compliance section to the marketing plugin's brand review command. Open the command file, add a new section on fair balance requirements and off-label risk checks, save. Done in five minutes.
+
+#### Approach B: Fork the Plugin (Recommended for Teams)
+
+Copy the entire plugin directory, give it a new name, and modify the copy. Install the fork as a separate plugin alongside the original (or instead of it).
+
+**How it works:**
+
+1. Copy the plugin directory:
+   ```
+   marketing/1.0.0/  -->  marketing-pharma/1.0.0/
+   ```
+
+2. Update `plugin.json` in the copy:
+   ```json
+   {
+     "name": "marketing-pharma",
+     "version": "1.0.0",
+     "description": "Marketing plugin extended for pharmaceutical companies."
+   }
+   ```
+
+3. Make your modifications — add skills, modify commands, update MCP servers.
+
+4. Install the forked plugin.
+
+**When to use:**
+- Team-wide customizations that everyone should share
+- Significant modifications that change the plugin's behavior
+- When you need to maintain your changes across plugin updates
+- When you want a clean, auditable separation between original and custom content
+
+**Pros:**
+- Full control over all content
+- Changes survive plugin updates (your fork is separate)
+- Clean separation between original and customized content
+- Can be distributed to your entire team
+
+**Cons:**
+- You must manually track and merge upstream changes when the original plugin updates
+- Maintaining a full copy requires more storage and oversight
+
+**Example:** Creating a pharmaceutical marketing plugin by forking the marketing plugin, adding regulatory compliance and medical affairs skills, adding new commands for MLR review and congress planning, and updating MCP connections to include PubMed and ClinicalTrials.gov.
+
+#### Approach C: Complementary Skills via CLAUDE.md (Lightest Touch)
+
+Keep the original plugin completely untouched. Add routing rules in your project's `CLAUDE.md` file and create additional skills in your project's `.claude/skills/` directory.
+
+**How it works:**
+
+1. Create a new skill directory in your project (not inside the plugin):
+   ```
+   your-project/
+   ├── .claude/
+   │   └── skills/
+   │       └── pharma-compliance/
+   │           ├── SKILL.md
+   │           └── references/
+   │               └── mlr-checklist.md
+   └── CLAUDE.md
+   ```
+
+2. Add a routing rule in your project's `CLAUDE.md`:
+   ```markdown
+   ## Plugin Extensions
+
+   When creating pharmaceutical marketing content, also apply the
+   pharma-compliance skill for regulatory review requirements.
+   ```
+
+3. The original marketing plugin continues to work unchanged. Your project-level skill adds knowledge on top.
+
+**When to use:**
+- Adding project-specific knowledge without touching any plugin
+- Supplementing a plugin for a particular context without affecting other projects
+- When you want zero risk of conflicting with plugin updates
+
+**Pros:**
+- Zero risk to the original plugin
+- Changes are project-scoped (do not affect other projects)
+- Coexists cleanly with any plugin version
+- Easy to maintain (your additions are fully separate)
+
+**Cons:**
+- Limited to adding knowledge — cannot modify existing plugin behavior
+- Requires maintaining both the plugin and your project-level additions
+- Only works within the project that has the `CLAUDE.md` file
+
+**Example:** You use the standard marketing plugin across all projects. For one client in pharmaceuticals, you create a project-level `pharma-compliance` skill with MLR review checklists and add a `CLAUDE.md` rule that activates it when creating content for that client. Other projects using the same marketing plugin are unaffected.
+
+### Choosing the Right Approach
+
+| Situation | Recommended Approach |
+|-----------|---------------------|
+| Quick personal experiment | A: Direct Modification |
+| Team-wide customization | B: Fork the Plugin |
+| Project-specific additions | C: CLAUDE.md Skills |
+| Industry adaptation for distribution | B: Fork the Plugin |
+| Adding company-specific knowledge | B or C depending on scope |
+| Temporary or experimental changes | A: Direct Modification |
+
+### Adding Industry-Specific Features
+
+Many organizations need plugins adapted for their industry. Here are common patterns:
+
+**Start with a domain plugin.** If a marketing, sales, finance, or legal plugin covers your base workflows, fork it rather than building from scratch.
+
+**Add industry-specific skills.** Create new skills for domain knowledge unique to your industry:
+- Pharmaceutical: regulatory compliance, medical affairs, KOL management
+- Financial services: compliance review, risk assessment, regulatory reporting
+- Healthcare: HIPAA compliance, clinical documentation, care coordination
+- Manufacturing: quality management, supply chain optimization, safety compliance
+
+**Modify existing commands.** Extend existing commands with industry-specific sections. Add compliance checks to content review commands. Add regulatory requirements to planning commands.
+
+**Update MCP connections.** Connect industry-specific tools. Pharmaceutical companies may need PubMed and ClinicalTrials.gov. Financial firms may need Bloomberg terminal access.
+
+### Adding Company-Specific Features
+
+Beyond industry, every company has unique processes and conventions:
+
+**Embed your brand voice.** If you have brand guidelines, create a skill that Claude references when generating content. Include tone attributes, terminology preferences, and examples of good and bad writing.
+
+**Encode your workflows.** If your team follows specific processes (sprint ceremonies, review stages, approval flows), encode them in skills so Claude follows the same steps.
+
+**Reference your tools by name.** Use the customizer skill to replace generic tool references with your actual tool names and URLs.
+
+**Include your templates.** If your team uses standard formats for reports, plans, or documents, put them in a skill's `assets/` or `references/` directory so Claude can apply them.
+
+**Set up hooks for governance.** If your organization has policies that should always be enforced (security reviews on code changes, compliance checks on content, naming conventions on files), implement them as hooks that fire automatically.
+
+---
+
+## Part VI: File Reference
+
+### Complete File Tree
+
+```
+cowork-plugin-management/0.2.1/
+├── .claude-plugin/
+│   └── plugin.json                                            # Plugin metadata
+├── skills/
+│   ├── create-cowork-plugin/
+│   │   ├── SKILL.md                                           # Plugin creation workflow
+│   │   └── references/
+│   │       ├── component-schemas.md                           # Component format specs
+│   │       └── example-plugins.md                             # Three example plugins
+│   └── cowork-plugin-customizer/
+│       ├── SKILL.md                                           # Plugin customization workflow
+│       ├── LICENSE.txt                                        # Skill license
+│       ├── examples/
+│       │   └── customized-mcp.json                            # Example MCP configuration
+│       └── references/
+│           ├── mcp-servers.md                                 # MCP discovery guide
+│           └── search-strategies.md                           # Knowledge search patterns
+└── LICENSE                                                    # Plugin license
 ```
 
-**Step 6: Update MCP Configuration**
+**File Count:** 10 files total
 
-Add pharmaceutical-specific MCPs to `.mcp.json`:
+### Detailed File Descriptions
+
+**`.claude-plugin/plugin.json`**
+
+The plugin manifest. Contains the plugin name (`cowork-plugin-management`), version, description, and author information. This is the only truly required file — it is how the system recognizes the directory as a plugin.
 
 ```json
 {
-  "mcpServers": {
-    "slack": { "type": "http", "url": "https://mcp.slack.com/mcp" },
-    "canva": { "type": "http", "url": "https://mcp.canva.com/mcp" },
-    "figma": { "type": "http", "url": "https://mcp.figma.com/mcp" },
-    "hubspot": { "type": "http", "url": "https://mcp.hubspot.com/anthropic" },
-    "amplitude": { "type": "http", "url": "https://mcp.amplitude.com/mcp" },
-    "notion": { "type": "http", "url": "https://mcp.notion.com/mcp" },
-    "pubmed": { "type": "http", "url": "https://api.pubmed.gov/mcp" },
-    "clinicaltrials": { "type": "http", "url": "https://clinicaltrials.gov/api/mcp" }
+  "name": "cowork-plugin-management",
+  "version": "0.2.1",
+  "description": "Create, customize, and manage plugins tailored to your organization's tools and workflows. Configure MCP servers, adjust plugin behavior, and adapt templates to match how your team works.",
+  "author": {
+    "name": "Anthropic"
   }
 }
 ```
 
-**Step 7: Update Documentation**
+---
 
-Edit `README.md` to reflect the pharma-specific additions and update `CONNECTORS.md` if needed.
+**`skills/create-cowork-plugin/SKILL.md`**
 
-**Step 8: Package and Distribute**
+The core file for the plugin creation skill. Contains the five-phase guided workflow (Discovery, Component Planning, Design, Implementation, Review and Package), the complete plugin directory structure specification, the plugin.json schema, a summary of component types, the `~~` placeholder system documentation, the `${CLAUDE_PLUGIN_ROOT}` variable explanation, and best practices for plugin design. This is the primary knowledge source that Claude loads when you express intent to create a plugin.
 
-Package the forked plugin:
-
-```bash
-cd marketing-pharma && zip -r /tmp/marketing-pharma.plugin . && cp /tmp/marketing-pharma.plugin /path/to/outputs/
-```
-
-Distribute `marketing-pharma.plugin` to your team via your internal plugin repository or file sharing.
-
-**Outcome:** A pharmaceutical-specific marketing plugin that retains all the value of the original marketing plugin while adding industry-specific compliance, review processes, and campaign types.
+Frontmatter fields:
+- `name`: create-cowork-plugin
+- `description`: Trigger phrases including "create a plugin," "build a plugin," "make a new plugin," "develop a plugin," "scaffold a plugin," "start a plugin from scratch," and "design a plugin"
+- `compatibility`: Requires Cowork desktop app environment
 
 ---
 
-### Workflow 4: Adding Company-Specific Customizations via CLAUDE.md
+**`skills/create-cowork-plugin/references/component-schemas.md`**
 
-**Scenario:** You want to layer your company's brand voice rules on top of the marketing plugin without modifying the plugin itself. This approach lets you receive marketing plugin updates without merge conflicts.
-
-**Step 1: Create a Company Brand Voice Skill**
-
-In your project directory, create:
-
-```
-your-project/
-├── .claude/
-│   └── skills/
-│       └── acme-brand-voice/
-│           ├── SKILL.md
-│           └── references/
-│               └── voice-examples.md
-└── CLAUDE.md
-```
-
-**SKILL.md content:**
-
-```markdown
----
-name: acme-brand-voice
-description: >
-  Acme Corporation brand voice, tone, and messaging guidelines. Use when
-  creating any marketing content for Acme, reviewing content for brand
-  alignment, adapting tone for different audiences, or checking terminology
-  and style compliance.
----
-
-# Acme Brand Voice
-
-## Voice Attributes
-
-- **Confident but not arrogant**: We know our product is excellent. We let
-  results speak. We never disparage competitors.
-- **Clear and direct**: Short sentences. Active voice. No jargon without
-  explanation.
-- **Warm but professional**: We use contractions. We avoid slang. We never
-  use ALL CAPS for emphasis.
-
-## Terminology Rules
-
-| Use This | Not This | Reason |
-|----------|----------|--------|
-| Acme Platform | the platform, our tool | Always capitalize product name |
-| clients | customers, users | Reflects relationship |
-| team members | employees, workers | Company culture preference |
-
-[... more brand rules ...]
-```
-
-**Step 2: Add Routing Rules to CLAUDE.md**
-
-Edit your project's `CLAUDE.md`:
-
-```markdown
-## Brand Voice Rules
-
-When using any marketing plugin command or skill, always apply the
-acme-brand-voice skill in addition to the marketing plugin's brand-voice
-skill. Acme-specific rules override generic rules when they conflict.
-
-When the marketing plugin asks about brand voice, tone, or messaging,
-incorporate Acme's voice attributes and terminology rules from the
-acme-brand-voice skill.
-```
-
-**Step 3: Test the Integration**
-
-Run a marketing plugin command:
-
-> /campaign-plan for new product launch
-
-Claude generates a campaign brief. You notice it:
-- Uses "clients" instead of "customers" (Acme rule)
-- Uses "Acme Platform" with capital letters (Acme rule)
-- Applies confident, clear tone (Acme rule)
-- Also incorporates campaign structure from marketing plugin's campaign-planning skill
-
-Both skills are working together.
-
-**Step 4: Receive Marketing Plugin Updates**
-
-When the marketing plugin releases version 2.0 with new features, you:
-
-1. Install the updated marketing plugin
-2. Your acme-brand-voice skill remains unchanged (it is in your project, not the plugin)
-3. Your CLAUDE.md routing rules remain unchanged
-4. The new marketing plugin features automatically work with Acme brand voice layered on top
-
-**Outcome:** Company-specific customizations that persist across plugin updates, with no merge conflicts or manual file editing.
+Detailed format specifications for every plugin component type. This is the source of truth for file formats, frontmatter fields, syntax rules, and structural requirements. Claude loads this reference on demand during Phase 4 (Implementation) of the creation workflow. Covers:
+- Commands: frontmatter fields (`description`, `allowed-tools`, `model`, `argument-hint`), `$ARGUMENTS` syntax, `@path` file inclusion, inline bash execution, `${CLAUDE_PLUGIN_ROOT}` variable
+- Skills: frontmatter fields (`name`, `description`, `version`), writing style rules, progressive disclosure levels, directory structure conventions
+- Agents: frontmatter fields (`name`, `description`, `model`, `color`, `tools`), `<example>` blocks for triggering conditions, naming rules, color guidelines
+- Hooks: event types (PreToolUse, PostToolUse, Stop, SessionStart, etc.), prompt-based vs. command-based hooks, `hooks.json` format, decision output format (`approve`, `block`, `ask_user`)
+- MCP Servers: stdio, SSE, and HTTP types with configuration examples, environment variable expansion, server type selection guide
+- CONNECTORS.md: format specification and `~~` placeholder usage patterns
 
 ---
 
-## Part VI: Best Practices and Guidelines
+**`skills/create-cowork-plugin/references/example-plugins.md`**
 
-This section distills the accumulated wisdom from plugin creation and customization into actionable guidelines for administrators, team leads, and power users.
+Three complete example plugin structures at different complexity levels:
 
-### When to Create vs. Customize vs. Extend
-
-**Create a new plugin from scratch when:**
-- No existing plugin covers your use case
-- The need is highly specific to your organization or industry
-- You have deep domain expertise to encode
-- You want complete control over structure and components
-
-**Customize an existing plugin when:**
-- A generic plugin template exists with `~~` placeholders
-- The plugin's structure and workflows fit your needs
-- You just need to swap tool references and configure values
-- You want to deploy quickly with minimal custom development
-
-**Extend an existing plugin when:**
-- A plugin does 70-80% of what you need
-- You want to add features without altering the original
-- You may want to receive upstream updates
-- You are adding company-specific or industry-specific layers
-
-**Decision matrix:**
-
-| Situation | Recommended Approach | Rationale |
-|-----------|---------------------|-----------|
-| Marketing team needs pharma compliance features | Extend (fork marketing plugin) | Core marketing workflows stay intact; add industry layer |
-| Need a plugin for internal procurement workflows | Create from scratch | No generic template exists for this domain |
-| Engineering plugin exists with `~~project tracker` | Customize | Perfect fit; just needs tool-specific configuration |
-| Want to add company brand voice to any marketing plugin | Extend (CLAUDE.md + complementary skill) | Lightest touch; survives upstream updates |
-
-### Structuring Skills for Progressive Disclosure
-
-Skills are the most knowledge-dense component type. They can easily become bloated and hard to maintain. Follow this three-tier structure:
-
-**Tier 1: Metadata (always in context)**
-- `name` field: Short, descriptive, kebab-case
-- `description` field: Third-person, with specific trigger phrases in quotes
-- Target size: ~100 words
-
-**Tier 2: SKILL.md Body (loads when triggered)**
-- Core frameworks, checklists, and processes
-- High-level guidance and decision trees
-- References to files in `references/` for deeper detail
-- Target size: 1,500-2,000 words (max 3,000)
-
-**Tier 3: Bundled Resources (loads on demand)**
-- `references/`: Detailed guides, long tables, specifications
-- `examples/`: Sample configurations, templates
-- `scripts/`: Utility scripts for validation or generation
-- `assets/`: Templates, images, supplementary materials
-- Size: Unlimited
-
-**Example of good progressive disclosure** (from the create-cowork-plugin skill):
-
-```
-create-cowork-plugin/
-├── SKILL.md                           # 2,500 words: workflow overview, best practices
-├── references/
-│   ├── component-schemas.md           # 4,000 words: exhaustive field specifications
-│   └── example-plugins.md             # 2,000 words: three complete examples
-└── examples/
-    └── [no examples in this skill]
-```
-
-The SKILL.md body provides enough context to guide the workflow. The component schemas provide deep reference detail when implementing. Users are never overwhelmed with information they do not need yet.
-
-### Writing Skill Descriptions That Trigger Reliably
-
-The `description` field in skill frontmatter determines when Claude loads the skill. Poor descriptions lead to skills failing to trigger when needed or triggering at inappropriate times.
-
-**Good description anatomy:**
-
-1. **Third-person framing**: "This skill should be used when..." or "Use this skill when..."
-2. **Specific trigger phrases in quotes**: Actual words users would say
-3. **Multiple variations**: Formal and informal phrasings
-4. **Context indicators**: Situations or tasks that require the skill
-
-**Example (good):**
-
-```yaml
-description: >
-  This skill should be used when the user asks to "create a plugin",
-  "build a plugin", "make a new plugin", "develop a plugin", "scaffold
-  a plugin", "start a plugin from scratch", or "design a plugin". Also
-  use when the user needs to understand plugin architecture, component
-  types, or the plugin creation workflow.
-```
-
-This description:
-- Lists seven different phrasings users might use
-- Includes both action-oriented ("create") and understanding-oriented ("understand architecture") triggers
-- Covers formal ("develop a plugin") and informal ("make a plugin") language
-
-**Example (bad):**
-
-```yaml
-description: Plugin creation and management
-```
-
-This description:
-- Too generic; could trigger on any mention of plugins
-- No specific user phrases
-- No context about when it is appropriate
-
-**Trigger phrase discovery process:**
-
-1. Imagine you are a user with the problem this skill solves. What would you say?
-2. Write down 5-10 variations (short and long, formal and casual)
-3. Include those exact phrases in quotes in the description
-4. Add situational context ("when reviewing content," "when preparing for deployment")
-
-### Command Writing: Instructions for Claude, Not the User
-
-Commands are Markdown files that Claude reads and follows. The most common mistake is writing them like documentation for end users.
-
-**Bad command structure (reads like documentation):**
-
-```markdown
----
-description: Generate a campaign plan
----
-
-# Campaign Planning Command
-
-This command helps you create a comprehensive campaign plan. It will ask
-you questions about your goals, audience, and budget, then generate a
-structured brief.
-
-To use this command, provide the campaign objective as an argument.
-```
-
-This reads like a user guide. Claude does not need to know how the command helps users; Claude **is** the one executing it.
-
-**Good command structure (reads like instructions):**
-
-```markdown
----
-description: Generate a campaign plan
-argument-hint: <campaign objective>
----
-
-Generate a comprehensive campaign plan.
-
-## Gather Inputs
-
-Ask the user for:
-1. Campaign goal (if not provided in $ARGUMENTS)
-2. Target audience
-3. Timeline
-4. Budget range (optional)
-
-## Output Structure
-
-Present a campaign brief with these sections:
-1. Campaign Overview
-2. Target Audience
-3. Key Messages
-4. Channel Strategy
-5. Content Calendar
-6. Success Metrics
-```
-
-This tells Claude exactly what to do: gather inputs, structure output, include specific sections. It is imperative and action-oriented.
-
-**Writing style rules for commands:**
-
-- Use imperative verbs: "Generate," "Analyze," "Check," "Ask," "Present"
-- Structure with headings: `## Inputs`, `## Process`, `## Output`
-- Specify exact output formats when precision matters
-- Use bulleted or numbered lists for sequences of actions
-- Reference files and variables directly: `@$1`, `${CLAUDE_PLUGIN_ROOT}/templates/brief.md`
-
-### Managing MCP Server Configurations
-
-When creating or customizing plugins, MCP server setup is a common point of failure. Follow these guidelines:
-
-**Use environment variables for credentials:**
-
-```json
-{
-  "mcpServers": {
-    "custom-api": {
-      "type": "http",
-      "url": "https://api.example.com/mcp",
-      "headers": {
-        "Authorization": "Bearer ${API_TOKEN}"
-      }
-    }
-  }
-}
-```
-
-Never hardcode tokens or passwords in plugin files.
-
-**Always use `${CLAUDE_PLUGIN_ROOT}` for local paths:**
-
-```json
-{
-  "mcpServers": {
-    "local-tool": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/tool.js"]
-    }
-  }
-}
-```
-
-This ensures portability across systems.
-
-**Document required environment variables in README:**
-
-```markdown
-## Setup
-
-This plugin requires the following environment variables:
-
-- `HUBSPOT_API_KEY` — Your HubSpot private app access token
-- `DATADOG_API_KEY` — Datadog API key
-- `DATADOG_APP_KEY` — Datadog application key
-
-Add these to your shell profile or `.env` file before using the plugin.
-```
-
-**Choose the right server type:**
-
-| Use Case | Server Type | Reason |
-|----------|-------------|--------|
-| Major SaaS with OAuth | SSE | Handles auth automatically |
-| REST API with token | HTTP | Simple header-based auth |
-| Custom local script | stdio | Runs locally, full control |
-| File system operations | stdio | Needs local machine access |
-
-**Test MCP connections immediately after configuration:**
-
-After adding an MCP server to `.mcp.json`, test it:
-
-1. Install the plugin
-2. Try a command or skill that uses the MCP server
-3. Verify the connection works and tools are accessible
-4. Check logs if authentication fails
-
-### Version Management and Distribution
-
-**Semantic versioning for plugins:**
-
-Use MAJOR.MINOR.PATCH:
-
-- **MAJOR**: Incompatible changes (remove commands, change skill names, break existing workflows)
-- **MINOR**: Add features (new commands, new skills, new MCP servers)
-- **PATCH**: Bug fixes, documentation updates, small improvements
-
-**Example progression:**
-- `0.1.0` — Initial version
-- `0.2.0` — Added two new skills
-- `0.2.1` — Fixed typo in command description
-- `1.0.0` — Stable release, ready for broad distribution
-- `1.1.0` — Added MCP server integration for new tool
-- `2.0.0` — Renamed skills for clarity (breaking change)
-
-**Changelog maintenance:**
-
-Maintain a `CHANGELOG.md` in the plugin root:
-
-```markdown
-# Changelog
-
-## [1.1.0] - 2025-03-15
-
-### Added
-- New `/congress-plan` command for conference marketing
-- Integrated PubMed MCP server for literature search
-
-### Changed
-- Updated fair balance checklist with 2025 FDA guidance
-
-## [1.0.0] - 2025-01-10
-
-### Added
-- Initial stable release
-- Regulatory compliance skill
-- MLR review process skill
-- Three commands: /mlr-package, /fair-balance-check, /compliance-review
-```
-
-**Distribution channels:**
-
-- **Internal plugin repository**: Host `.plugin` files in a shared directory or internal web server
-- **Version control**: Store plugin source in Git; tag releases
-- **Direct distribution**: Email `.plugin` files to users (works for small teams)
-- **Public registry**: If building for external use, consider publishing to a plugin marketplace (if one exists)
-
-**Update strategy:**
-
-When releasing updates:
-1. Increment version number in `plugin.json`
-2. Update `CHANGELOG.md`
-3. Package as `.plugin` file
-4. Announce to users with migration notes if breaking changes exist
-5. Maintain previous major version for 3-6 months to allow gradual migration
-
-### Testing and Validation
-
-Before distributing a plugin, test thoroughly:
-
-**Validation checks:**
-
-1. **Structural validation**: Run `claude plugin validate /path/to/plugin.json` — fix all errors, address warnings
-2. **Skill triggering**: Test that skills activate on expected phrases and do not activate on unrelated topics
-3. **Command execution**: Run every command with typical inputs; verify outputs are correct
-4. **MCP connections**: Ensure all MCP servers connect and tools are accessible
-5. **Hook behavior**: Trigger hooks (if present) and verify they behave as expected
-
-**Test scenarios by persona:**
-
-| Persona | Test Scenario |
-|---------|--------------|
-| New user | Install plugin, try basic commands, verify onboarding experience |
-| Power user | Use advanced features, combine commands, test edge cases |
-| Administrator | Install across multiple users, verify MCP auth works for all, check permissions |
-
-**Common issues to test for:**
-
-- Do skills fail to trigger when they should?
-- Do commands assume context that may not exist?
-- Are MCP server authentication errors clear and actionable?
-- Do hooks block operations they should allow, or allow operations they should block?
-- Are README instructions sufficient for a new user to set up?
+1. **Minimal Plugin (meeting-notes):** Single command, no other components. Demonstrates the simplest possible plugin — just a `plugin.json` and one command file.
+2. **Standard Plugin (code-quality):** One skill (coding-standards), two commands (`/review`, `/fix-lint`), and GitHub MCP integration. Shows how domain knowledge, user actions, and tool connections work together.
+3. **Full-Featured Plugin (engineering-workflow):** One skill (team-processes), two commands (`/standup-prep`, `/create-ticket`), one agent (ticket-analyzer), session-start hooks, MCP integration (Linear, GitHub, Slack), and `CONNECTORS.md` with tool-agnostic placeholders. Demonstrates every component type.
 
 ---
 
-## Part VII: Troubleshooting and Advanced Topics
+**`skills/cowork-plugin-customizer/SKILL.md`**
 
-### Troubleshooting Common Issues
+The core file for the plugin customization skill. Contains the four-phase workflow (Gather Context, Create Todo List, Complete Todo Items, Search for MCPs), the `~~` placeholder scanning process, guidelines for presenting changes in non-technical language, the summary output format, and plugin packaging instructions. This is the primary knowledge source that Claude loads when you express intent to customize a plugin.
 
-#### Issue: Skill Does Not Trigger When Expected
+Frontmatter fields:
+- `name`: cowork-plugin-customizer
+- `description`: Trigger phrases including "customize a plugin," "replace tool placeholders," and "configure MCP servers for a plugin"
+- `compatibility`: Requires Cowork desktop app environment with mounted plugin directories
 
-**Symptoms:** You mention the topic the skill covers, but Claude does not load the skill.
+---
+
+**`skills/cowork-plugin-customizer/references/mcp-servers.md`**
+
+MCP discovery and connection guide used during Phase 4 of the customization workflow. Contains:
+- Available tools: `search_mcp_registry` (search by keywords, returns up to 10 results with name, description, tools, URL, UUID, and connection status) and `suggest_connectors` (display Connect buttons for users to authenticate)
+- Category-to-keywords mapping for 12 categories with associated search terms
+- The MCP connection workflow: find customization point, check earlier findings, search registry, present choices, connect, update config
+- Plugin MCP config file location rules (check `plugin.json` for custom `mcpServers` path first, fall back to `.mcp.json` at root)
+- Config file format examples for all three server types (stdio, SSE, HTTP)
+- Note about first-party integrations not needing plugin config entries
+
+---
+
+**`skills/cowork-plugin-customizer/references/search-strategies.md`**
+
+Knowledge MCP search patterns used during Phase 1 of the customization workflow. Contains detailed query strategies organized by category:
+- Finding tool names: source control (GitHub, GitLab, Bitbucket), project management (Asana, Jira, Linear), chat (Slack, Teams), analytics (Datadog, Grafana), design (Figma, Sketch), CRM (Salesforce, HubSpot)
+- Finding organization values: workspace/project IDs, team conventions (story points, estimation scales), channel/team names
+- Fallback behavior when no knowledge MCPs are available: skip automatic discovery and proceed directly to asking the user
+
+---
+
+**`skills/cowork-plugin-customizer/examples/customized-mcp.json`**
+
+A complete example of a fully configured `.mcp.json` file after customization. Shows five server configurations:
+- GitHub (HTTP with Bearer token auth)
+- Asana (SSE with OAuth)
+- Slack (HTTP)
+- Figma (HTTP)
+- Datadog (HTTP with API key and application key headers)
+
+Also includes a `recommendedCategories` array listing tool categories the plugin benefits from: source-control, project-management, chat, documents, wiki-knowledge-base, design-graphics, and analytics-bi.
+
+---
+
+**`skills/cowork-plugin-customizer/LICENSE.txt`**
+
+License file for the customizer skill.
+
+---
+
+**`LICENSE`**
+
+License file for the plugin as a whole.
+
+### Cross-Reference: When Claude Reads Each File
+
+| File | Read When |
+|------|-----------|
+| `plugin.json` | Always (plugin identification and loading) |
+| `create-cowork-plugin/SKILL.md` | User expresses intent to create a plugin |
+| `component-schemas.md` | During Phase 4 (Implementation) when creating component files |
+| `example-plugins.md` | When Claude needs a reference structure or the user asks for examples |
+| `cowork-plugin-customizer/SKILL.md` | User expresses intent to customize a plugin |
+| `mcp-servers.md` | During Phase 4 (Connect MCPs) of customization |
+| `search-strategies.md` | During Phase 1 (Gather Context) of customization |
+| `customized-mcp.json` | When Claude needs a reference for MCP configuration format |
+
+---
+
+## Part VII: Troubleshooting & FAQ
+
+### Common Issues and Solutions
+
+#### Issue: Plugin Not Loading After Installation
+
+**Symptoms:**
+- You installed the plugin but Claude does not recognize it
+- Asking "What plugins are installed?" does not list cowork-plugin-management
+
+**Diagnosis:**
+- Plugin not properly installed or not recognized by the system
+- Plugin directory structure is incorrect
+
+**Solution:**
+1. Restart Claude (close and reopen the Cowork desktop app)
+2. Verify installation: Ask "What plugins are installed?"
+3. If installing via CLI, check that the command completed without errors
+4. Ensure the `.claude-plugin/plugin.json` file exists and contains valid JSON with at least a `name` field
+5. Reinstall through Plugin Settings if the issue persists
+
+---
+
+#### Issue: Skills Not Triggering When Expected
+
+**Symptoms:**
+- You say "I want to create a plugin" but the creation skill does not activate
+- You say "Customize this plugin" but the customizer does not engage
+- Claude responds generically instead of entering the guided workflow
+
+**Diagnosis:**
+- Plugin not loaded into the current session
+- Skill description does not match the exact phrasing you used
+- Session started before plugin was installed
+
+**Solution:**
+1. Start a new session (the plugin loads at session start)
+2. Use explicit trigger phrases: "I want to create a plugin from scratch" or "Help me customize the marketing plugin for my organization"
+3. Verify the plugin is installed: Ask "What plugins are installed?"
+4. Check that SKILL.md exists in the correct location within each skill directory
+5. Verify frontmatter has correct `---` delimiters and the `name` field matches the directory name
+
+---
+
+#### Issue: "Customization Only Available in Desktop App" Error
+
+**Symptoms:**
+- You try to create or customize a plugin and Claude says it requires the Cowork desktop app
+- The skill aborts with an incompatibility message
+
+**Diagnosis:**
+- You are running Claude in a remote container, CLI-only session, or environment without access to mounted plugin directories
+
+**Solution:**
+- Switch to the Cowork desktop app. Both skills require access to mounted plugin directories (`mnt/.plugins/`, `mnt/.local-plugins/`) and the outputs directory for delivering `.plugin` files
+- If you must use the CLI, the skills will have limited functionality. You may be able to discuss plugin architecture, but the skills cannot deliver `.plugin` files
+
+---
+
+#### Issue: Plugin Validation Fails
+
+**Symptoms:**
+- The creation skill's Phase 5 (Review and Package) reports validation errors
+- Running `claude plugin validate` manually produces errors or warnings
+
+**Common Errors and Solutions:**
+
+| Error Message | Cause | Solution |
+|--------------|-------|----------|
+| `name field is required` | `plugin.json` missing `name` | Add `"name": "plugin-name"` to plugin.json |
+| `Invalid version format` | Version not in semver format | Use MAJOR.MINOR.PATCH (e.g., `0.1.0`) |
+| `Skill missing frontmatter` | SKILL.md has no `---` delimiters | Add frontmatter with `name` and `description` fields |
+| `Command file not found` | plugin.json references non-existent command | Remove the reference or create the missing file |
+| `Hooks config is not valid JSON` | hooks.json has a syntax error | Validate and fix the JSON syntax |
+
+The creation skill catches most of these issues during implementation (Phase 4) by validating against component schemas. If errors slip through, Phase 5 catches them.
+
+---
+
+#### Issue: Skill Does Not Trigger When Expected (in a Plugin You Created)
+
+**Symptoms:** You mention the topic the skill covers, but Claude does not load the skill in a plugin you built.
 
 **Causes:**
 1. Skill description is too generic or missing specific trigger phrases
@@ -1780,19 +1416,12 @@ Before distributing a plugin, test thoroughly:
 3. SKILL.md is not in the correct location (`skills/skill-name/SKILL.md`)
 4. Frontmatter is malformed
 
-**Diagnostics:**
+**Solution:**
 
-Check skill metadata:
-```bash
-cat skills/my-skill/SKILL.md
-```
-
-Verify:
+Check the skill's frontmatter. Verify:
 - Frontmatter has correct `---` delimiters
 - `name` field matches directory name exactly
-- `description` includes specific trigger phrases
-
-**Solution:**
+- `description` includes specific trigger phrases in quotes
 
 Edit the `description` field to include explicit trigger phrases:
 
@@ -1807,32 +1436,21 @@ Reinstall the plugin and test again.
 
 ---
 
-#### Issue: Command Fails with "Tool Not Allowed" Error
+#### Issue: Command Fails with "Tool Not Allowed" Error (in a Plugin You Created)
 
 **Symptoms:** Running a command produces an error that a tool cannot be used.
 
-**Causes:**
-1. `allowed-tools` frontmatter field restricts tools
-2. Tool name is misspelled in `allowed-tools`
-3. MCP tool is not correctly named
+**Cause:** The `allowed-tools` frontmatter field in the command restricts which tools Claude can use, and the command is trying to use a tool not on the list.
 
-**Diagnostics:**
+**Solution:**
 
-Check command frontmatter:
-```bash
-cat commands/my-command.md
-```
+Check the command's frontmatter for `allowed-tools`:
 
-Look for:
 ```yaml
 allowed-tools: Read, Write, Grep
 ```
 
-If the command tries to use `Edit` but `allowed-tools` does not include it, the error occurs.
-
-**Solution:**
-
-Add the required tool to `allowed-tools`:
+If the command tries to use `Edit` but `allowed-tools` does not include it, the error occurs. Add the required tool:
 
 ```yaml
 allowed-tools: Read, Write, Edit, Grep
@@ -1848,425 +1466,140 @@ allowed-tools: ["mcp__hubspot__search_contacts", "Read", "Write"]
 
 ---
 
-#### Issue: MCP Server Fails to Connect
+#### Issue: MCP Server Fails to Connect During Customization
 
-**Symptoms:** Commands or skills that use an MCP server produce authentication errors or connection failures.
+**Symptoms:**
+- The customizer identifies your tools but cannot connect the MCP servers
+- Authentication completes but Claude says the tool is not connected
+- Connection attempts time out
 
-**Causes:**
-1. MCP server URL is incorrect
-2. Required environment variables are not set
-3. OAuth authentication not completed
-4. MCP server is down or unreachable
+**Diagnosis:**
+- OAuth permissions not fully granted
+- Tool's API is down or rate-limited
+- Network or firewall blocking the connection
+- MCP server URL is incorrect
 
-**Diagnostics:**
+**Solution:**
+1. Disconnect and reconnect: try the authentication flow again
+2. Check permissions during OAuth: ensure you approve all requested scopes
+3. Verify the tool's status: check the service's status page for API issues
+4. Try a simpler connection first: if connecting five tools fails, try connecting just one to isolate the issue
+5. For services requiring API keys (like Datadog), verify the environment variables are set correctly
 
-Check `.mcp.json`:
-```bash
-cat .mcp.json
-```
+---
 
-Verify the URL and server type are correct.
+#### Issue: Hook Blocks Operations Incorrectly (in a Plugin You Created)
 
-Check environment variables:
-```bash
-echo $API_TOKEN
-```
+**Symptoms:** A hook you created blocks operations that should be allowed.
 
-If empty, the variable is not set.
+**Cause:** Hook prompt is too strict, matcher pattern is too broad, or command-based hook script has a logic error.
+
+**Solution:**
+1. Check `hooks/hooks.json` and review the matcher pattern. Narrow it if too broad:
+   - `"Write|Edit"` fires for Write or Edit tools
+   - `"Write.*\\.md"` fires only for Markdown file writes
+   - Empty matcher `""` fires for all events of that type
+2. For prompt-based hooks, refine the prompt to be more specific about what to allow and what to block
+3. For command-based hooks, test the script manually to ensure it returns the correct JSON decision (`approve`, `block`, or `ask_user`)
+4. Temporarily remove the hook to confirm it is the source of the problem
+
+---
+
+#### Issue: Created Plugin Has Wrong Directory Structure
+
+**Symptoms:** Commands or skills are not recognized because they are placed in the wrong directories.
 
 **Solution:**
 
-For environment variable issues, set the required variable:
-```bash
-export API_TOKEN="your-token-here"
+The correct structure places component directories at the plugin root, not inside `.claude-plugin/`:
+
+```
+plugin-name/
+├── .claude-plugin/
+│   └── plugin.json           # Only plugin.json goes here
+├── commands/                 # At root, NOT inside .claude-plugin/
+├── skills/                   # At root, NOT inside .claude-plugin/
+├── agents/                   # At root, NOT inside .claude-plugin/
+└── hooks/                    # At root, NOT inside .claude-plugin/
 ```
 
-Add it to your shell profile (`.bashrc`, `.zshrc`) to persist.
-
-For OAuth issues, reinstall the plugin — the OAuth flow should trigger during installation.
-
-For URL issues, verify the URL against the MCP server's documentation.
+If the creation skill produced the wrong structure, move the component directories to the correct locations and reinstall.
 
 ---
 
-#### Issue: Hook Blocks Operations Incorrectly
+### Frequently Asked Questions
 
-**Symptoms:** A PreToolUse or PostToolUse hook blocks operations that should be allowed.
+**Q: Can I use this plugin to modify itself?**
 
-**Causes:**
-1. Hook prompt is too strict or poorly worded
-2. Matcher pattern is too broad
-3. Command-based hook script has a bug
+A: Yes, the plugin management plugin is itself a plugin. You can fork it and add organization-specific templates, examples, or conventions. However, the lighter approach is usually to create complementary skills in your project's `CLAUDE.md` that supplement the creation workflow with your organization's standards (see Approach C in Part V).
 
-**Diagnostics:**
+**Q: How long does it take to create a plugin from scratch?**
 
-Check `hooks/hooks.json`:
-```json
-{
-  "PreToolUse": [
-    {
-      "matcher": "Write|Edit",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Block all file writes that do not follow naming conventions.",
-          "timeout": 30
-        }
-      ]
-    }
-  ]
-}
-```
+A: A simple plugin with one skill and one or two commands typically takes 10-15 minutes of conversation. A complex plugin with multiple skills, commands, agents, hooks, and MCP integrations can take 30-45 minutes. The skill handles all the file creation — your time is spent in the discovery and design phases answering questions about what you want.
 
-Test the hook logic manually: Would the prompt block this specific operation?
+**Q: Can I create plugins that work outside of Cowork?**
 
-**Solution:**
+A: The `.plugin` file format and the underlying directory structure are compatible with Claude Code (the CLI). Plugins created through this skill can be installed in both Cowork and Claude Code. However, the creation and customization *process* requires the Cowork desktop app because of its access to mounted plugin directories and the outputs folder.
 
-Refine the hook prompt to be more specific:
+**Q: What happens if I customize a plugin but skip some questions?**
 
-```json
-{
-  "prompt": "Check if this file write follows the naming convention (kebab-case, .md extension). Allow if it does; block with explanation if it does not.",
-  "timeout": 30
-}
-```
+A: The customizer leaves `~~` placeholders unchanged for any questions you skip. You can run the customizer again later when you have the information. This is by design — partial customization is better than forced guesses.
 
-Or narrow the matcher to specific files:
+**Q: Should I create a plugin or write a CLAUDE.md file?**
 
-```json
-{
-  "matcher": "Write.*\\.md"
-}
-```
+A: Use `CLAUDE.md` for project-specific instructions that apply only to one project. Create a plugin when you want reusable, distributable capabilities that work across projects and team members. If you find yourself copying the same `CLAUDE.md` content across multiple projects, that is a strong signal to create a plugin instead.
 
----
+**Q: Can multiple people on my team create plugins simultaneously?**
 
-#### Issue: Plugin Validation Fails
+A: Yes. Each person runs the creation skill in their own Cowork session. The resulting `.plugin` files can be shared through your normal file distribution methods (shared drives, version control, internal package registries).
 
-**Symptoms:** Running `claude plugin validate /path/to/plugin.json` produces errors or warnings.
+**Q: How do I update a plugin I previously created?**
 
-**Common Errors:**
+A: Open the plugin directory and edit the files directly, or run the creation skill again with updated requirements. For version tracking, increment the version number in `plugin.json` following semver conventions: patch (0.1.1) for bug fixes, minor (0.2.0) for new features, major (1.0.0) for breaking changes.
 
-| Error Message | Cause | Solution |
-|--------------|-------|----------|
-| `name field is required` | `plugin.json` missing `name` | Add `"name": "plugin-name"` |
-| `Invalid version format` | Version not semver | Use `MAJOR.MINOR.PATCH` (e.g., `0.1.0`) |
-| `Skill missing frontmatter` | SKILL.md has no `---` delimiters | Add frontmatter with `name` and `description` |
-| `Command file not found` | `plugin.json` references non-existent command | Remove reference or create the file |
-| `Hooks config is not valid JSON` | `hooks.json` has syntax error | Validate JSON syntax |
+**Q: What is the difference between "customize" and "extend"?**
 
-**Solution:**
+A: **Customize** means adapting a plugin's existing content to your organization — replacing tool placeholders, configuring MCP connections, updating organization-specific values. The plugin's structure and capabilities stay the same. **Extend** means adding new capabilities — new commands, new skills, new integrations. Customization uses the customizer skill. Extension uses one of the three approaches in Part V (direct modification, forking, or complementary skills).
 
-Fix the specific issue identified in the error message, then rerun validation.
+**Q: How do I share a plugin with my team?**
 
----
+A: After creating or customizing a plugin, the skill delivers a `.plugin` file. Share this file with your team through any method you use for file distribution. Recipients install it through Cowork's Plugin Settings by opening the file, or through the CLI with `claude plugins add <path-to-file>`.
 
-### Advanced Customization Scenarios
+**Q: Can I use this plugin to create plugins for industries I know nothing about?**
 
-#### Scenario 1: Multi-Tenant Plugin with Organization-Specific Variants
+A: The creation skill guides you through the process, but the quality of the resulting plugin depends on the domain knowledge you bring to the conversation. If you are building a pharmaceutical compliance plugin, you need to understand pharmaceutical compliance. The skill structures and packages that knowledge — it does not generate domain expertise from nothing.
 
-**Challenge:** You have multiple clients, each needing the same plugin with different tool configurations.
+**Q: What if my organization uses a tool that does not have an MCP server?**
 
-**Approach:**
+A: The customizer will note that no MCP connector was found for that tool. The plugin still works — Claude just cannot connect to that tool directly. You can still reference the tool by name in your plugin's content, and Claude will ask users to provide data from that tool manually. If a tool later releases an MCP server, you can update the plugin's `.mcp.json` file.
 
-1. Create a master template plugin with `~~` placeholders
-2. For each client, run the customizer skill to generate a client-specific variant
-3. Name each variant distinctly (e.g., `marketing-acme`, `marketing-globex`)
-4. Distribute the appropriate variant to each client
+**Q: Is there a limit to how many components a plugin can have?**
 
-This is essentially the same workflow as regular customization, repeated for each organization.
+A: There is no hard limit, but practical guidelines apply. Plugins with dozens of skills or commands can become unwieldy and slow down context loading. If a plugin grows too large, consider splitting it into multiple focused plugins (e.g., `marketing-core`, `marketing-pharma`, `marketing-analytics`). Start small and add components based on real usage.
+
+**Q: How do I debug a plugin that is not working correctly?**
+
+A: Start with these steps:
+1. Ask Claude "What plugins are installed?" to verify the plugin is loaded
+2. Check `plugin.json` for valid JSON and correct `name` field
+3. For skills: verify frontmatter has `---` delimiters, `name` matches directory name, `description` includes trigger phrases
+4. For commands: verify file is in `commands/` at plugin root (not inside `.claude-plugin/`), filename is kebab-case with `.md` extension
+5. For MCP: verify `.mcp.json` is valid JSON, URLs are correct, environment variables are set
+6. For hooks: verify `hooks.json` is valid JSON, matcher patterns are correct, scripts are executable
+7. Run `claude plugin validate <path-to-plugin-json>` for automated validation
+
+**Q: How do hooks differ from skills in terms of when they activate?**
+
+A: Skills activate based on conversation topic — when you discuss something relevant to the skill's domain, Claude loads it. Hooks activate based on system events — when a specific action occurs (a file is written, a session starts, a tool is used). Skills provide knowledge; hooks enforce behavior. For example, a skill might teach Claude about coding standards, while a hook might automatically check every file write against those standards.
+
+**Q: What version should I use when creating my first plugin?**
+
+A: Start at `0.1.0`. The `0.x.x` range signals that the plugin is in development and may change. Move to `1.0.0` when the plugin is stable and in production use. Follow semver conventions: increment the patch number (0.1.1) for bug fixes, the minor number (0.2.0) for new features, and the major number (1.0.0) for breaking changes.
+
+**Q: Can I combine both skills in a single session — create a plugin and then customize it?**
+
+A: Yes. You can create a plugin using the creation skill, then immediately customize it using the customizer skill in the same session. This is useful when you want to build a template plugin with `~~` placeholders and then immediately personalize it for your organization. The creation skill delivers the plugin, and you can then say "Now customize that plugin for our tools" to engage the customizer.
 
 ---
 
-#### Scenario 2: Conditional Skill Loading Based on Project Type
-
-**Challenge:** You want a skill to load only when working on certain types of projects (e.g., pharma projects vs. consumer projects).
-
-**Approach:**
-
-Use project-level `CLAUDE.md` files to create routing rules:
-
-**In pharma project's CLAUDE.md:**
-```markdown
-## Context
-
-This is a pharmaceutical product. Always apply regulatory-compliance
-and mlr-review-process skills when creating marketing content.
-```
-
-**In consumer project's CLAUDE.md:**
-```markdown
-## Context
-
-This is a consumer product. Use standard marketing workflows without
-regulatory compliance checks.
-```
-
-The `CLAUDE.md` context influences which skills Claude activates.
-
----
-
-#### Scenario 3: Dynamic MCP Configuration Based on Environment
-
-**Challenge:** Development, staging, and production environments use different MCP server endpoints.
-
-**Approach:**
-
-Use environment variables for URLs:
-
-```json
-{
-  "mcpServers": {
-    "api-service": {
-      "type": "http",
-      "url": "${API_MCP_URL}",
-      "headers": {
-        "Authorization": "Bearer ${API_TOKEN}"
-      }
-    }
-  }
-}
-```
-
-Set the variable in each environment:
-
-```bash
-# Development
-export API_MCP_URL="https://dev-api.example.com/mcp"
-
-# Production
-export API_MCP_URL="https://api.example.com/mcp"
-```
-
-The plugin adapts automatically based on the environment.
-
----
-
-### Extending the Plugin Management Plugin Itself
-
-The plugin management plugin is itself a plugin. Can you extend it?
-
-**Yes, but with caveats.**
-
-**Approach A: Add a complementary skill in CLAUDE.md**
-
-Create a project-level skill that supplements the plugin creation workflow:
-
-```
-your-project/
-├── .claude/
-│   └── skills/
-│       └── custom-plugin-templates/
-│           ├── SKILL.md
-│           └── references/
-│               └── org-specific-templates.md
-└── CLAUDE.md
-```
-
-**SKILL.md:**
-
-```markdown
----
-name: custom-plugin-templates
-description: >
-  Organization-specific plugin templates and component patterns. Use
-  when creating plugins for internal use, referencing company-standard
-  structures, or applying organizational conventions to new plugins.
----
-
-# Custom Plugin Templates for Acme Corp
-
-## Standard Acme Plugin Structure
-
-All Acme plugins should include:
-1. A `LICENSE` file (MIT license)
-2. A `SECURITY.md` file with contact information
-3. A `.github/` directory with issue templates
-
-[... more organization-specific conventions ...]
-```
-
-**CLAUDE.md:**
-
-```markdown
-## Plugin Creation Rules
-
-When using the create-cowork-plugin skill, also apply the
-custom-plugin-templates skill to ensure all Acme-specific conventions
-are followed.
-```
-
-**Approach B: Fork the plugin management plugin**
-
-Copy the plugin, rename it (e.g., `cowork-plugin-management-acme`), and add organization-specific templates, examples, or workflow variations.
-
-This is more invasive but gives complete control.
-
-**Recommendation:** Use Approach A unless you have significant divergence from the standard workflow.
-
----
-
-### Plugin Lifecycle Management
-
-As plugins evolve, you need strategies for managing updates, deprecations, and migrations.
-
-**Update Strategy:**
-
-1. **Minor updates** (new features, no breaking changes): Distribute and encourage adoption; old version continues to work
-2. **Major updates** (breaking changes): Announce 3-6 months in advance; provide migration guide; maintain old version during transition period
-3. **Deprecation**: Mark plugin as deprecated in `plugin.json` and README; provide replacement recommendations
-
-**Migration Guide Template:**
-
-```markdown
-# Migration Guide: v1.x to v2.0
-
-## Breaking Changes
-
-### Renamed Skills
-- `old-skill-name` → `new-skill-name`
-
-### Removed Commands
-- `/old-command` — Use `/new-command` instead
-
-### Changed MCP Configuration
-- `.mcp.json` now requires environment variable `NEW_VAR`
-
-## Migration Steps
-
-1. Uninstall version 1.x
-2. Set environment variable: `export NEW_VAR="value"`
-3. Install version 2.0
-4. Update any CLAUDE.md references from old skill names to new names
-5. Test all critical workflows
-
-## Support
-
-Old version (1.x) will be supported until 2025-12-31. After that,
-only 2.x will receive updates.
-```
-
----
-
-### Performance Considerations
-
-**Skill Size and Load Time:**
-
-Large skills slow down context loading. Keep SKILL.md bodies under 3,000 words. Move detailed content to `references/`.
-
-**Number of Components:**
-
-Plugins with dozens of skills or commands can become unwieldy. Consider splitting into multiple focused plugins:
-
-- `marketing-core` — foundational skills and commands
-- `marketing-pharma` — pharmaceutical-specific extensions
-- `marketing-analytics` — analytics and reporting focus
-
-**MCP Connection Overhead:**
-
-Each MCP server connection adds latency. Only include MCP servers the plugin actually uses.
-
----
-
-### Security and Access Control
-
-**Credentials Management:**
-
-Never hardcode credentials in plugin files. Always use environment variables:
-
-```json
-{
-  "headers": {
-    "Authorization": "Bearer ${API_TOKEN}"
-  }
-}
-```
-
-**Tool Restrictions:**
-
-Use `allowed-tools` in commands to limit what Claude can do:
-
-```yaml
-allowed-tools: Read, Grep
-```
-
-This prevents accidental file modifications during read-only operations.
-
-**Hook-Based Policy Enforcement:**
-
-Use PreToolUse hooks to enforce security policies:
-
-```json
-{
-  "PreToolUse": [
-    {
-      "matcher": "Write|Edit|Bash",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Verify this operation does not write to protected directories (/etc, /usr, /bin). Block if it does.",
-          "timeout": 30
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Access Control for Sensitive MCPs:**
-
-For MCP servers that access sensitive data (CRM, financial systems), restrict plugin distribution to authorized users only.
-
----
-
-### Future-Proofing Your Plugins
-
-**Use Semantic Versioning:**
-
-Clear version numbers communicate compatibility and help users plan upgrades.
-
-**Document Extensively:**
-
-Detailed README, CHANGELOG, and inline comments make plugins maintainable over time.
-
-**Avoid Hard-Coded Assumptions:**
-
-Use environment variables and configuration files rather than hardcoding values.
-
-**Design for Extension:**
-
-Structure skills and commands so new capabilities can be added without rewriting existing content.
-
-**Maintain Backward Compatibility:**
-
-When possible, deprecate rather than remove features. Provide migration paths.
-
----
-
-## Conclusion
-
-The cowork-plugin-management plugin is the foundational tool for extending Claude Cowork. It encodes the complete plugin architecture, provides guided workflows for creation and customization, and delivers production-ready `.plugin` files that can be distributed across teams and organizations.
-
-Whether you are building a net-new plugin from scratch or adapting a generic template to your organization's specific tools, the plugin management plugin provides the structure, guidance, and automation to make the process efficient and reliable.
-
-Key takeaways:
-
-1. **Two core skills drive everything**: `create-cowork-plugin` for building from scratch, `cowork-plugin-customizer` for adapting templates
-2. **No commands by design**: Plugin management is conversational, not command-driven
-3. **MCP integration is central**: The customizer skill discovers, connects, and configures MCP servers automatically
-4. **Progressive disclosure**: Structure skills with lean core content and detailed reference files to manage context efficiently
-5. **Start small, iterate**: Begin with minimal viable components and expand based on real usage
-
-As the plugin ecosystem grows, the plugin management plugin will be the tool administrators, team leads, and power users rely on to create the custom capabilities that make Claude Cowork truly valuable for their specific contexts.
-
----
-
-**AGENT_REPORT_START**  
-Plugin: cowork-plugin-management  
-Version: 0.2.1  
-Files analyzed: 8  
-Handbook word count: Approximately 16,500 words  
-Start time: 1771068420  
-End time: [will be calculated]  
-Estimated token usage: Approximately 48,000 input + 18,000 output = 66,000 total  
-**AGENT_REPORT_END**
+*This handbook covers the cowork-plugin-management plugin version 1.0.0. For the latest documentation, check the plugin's repository or the Cowork Plugin Settings page.*

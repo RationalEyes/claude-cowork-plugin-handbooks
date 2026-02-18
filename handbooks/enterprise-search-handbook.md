@@ -1387,7 +1387,7 @@ The enterprise-search plugin is designed to work out-of-the-box for most organiz
 3. **You want to add specialized query types**: Code search, customer history search, compliance audit search
 4. **You need to integrate proprietary knowledge**: Internal glossaries, org charts, custom taxonomies
 
-**Three customization approaches** (from the plugin development guide):
+**Three customization approaches** (from the Plugin Management Handbook):
 
 | Approach | Effort | Best For |
 |----------|--------|----------|

@@ -4,7 +4,7 @@
 
 These handbooks turn Anthropic's [official plugin source code](https://github.com/anthropics/knowledge-work-plugins) into practical, readable guides for business users. Each handbook covers every command, skill, connector, and workflow — explained for the people who *use* the tools, not the people who built them.
 
-> 145,000+ words across 12 handbooks — researched and written by a coordinated team of 22 AI agents in more than 2 hours. [See how.](#how-these-handbooks-were-made)
+> 137,000+ words across 11 handbooks — researched and written by a coordinated team of 22 AI agents in about 2 hours. [See how.](#how-these-handbooks-were-made)
 
 ---
 
@@ -37,12 +37,11 @@ The [official repository](https://github.com/anthropics/knowledge-work-plugins) 
 
 ## Building Your Own Plugins
 
-|   | Guide | Words | Handbook |
-|:-:|-------|------:|----------|
-| :wrench: | **Plugin Development Guide** — The complete reference for understanding plugin architecture, extending existing plugins, and creating new ones. Covers manifests, commands, skills, agents, hooks, MCP servers, and three approaches to customization. | 8,800 | [Read](handbooks/plugin-development-guide.md) · [PDF](handbooks/pdf/plugin-development-guide.pdf) |
-| :gear: | **Plugin Management Handbook** — User guide for the meta-plugin that helps you create and manage plugins directly within Claude. | 12,100 | [Read](handbooks/cowork-plugin-management-handbook.md) · [PDF](handbooks/pdf/cowork-plugin-management-handbook.pdf) |
+|   | Plugin | Words | Handbook |
+|:-:|--------|------:|----------|
+| :gear: | **Plugin Management** — The meta-plugin: create new plugins from scratch, customize existing ones for your organization, and manage tool connections. Covers plugin architecture, the five-phase creation workflow, three extension approaches, and everything you need to build plugins tailored to your team. | 12,700 | [Read](handbooks/cowork-plugin-management-handbook.md) · [PDF](handbooks/pdf/cowork-plugin-management-handbook.pdf) |
 
-The Plugin Development Guide explains how plugins work under the hood. The Plugin Management Handbook covers the plugin that helps you build other plugins. Together, they give you everything you need to create plugins tailored to your organization.
+This handbook covers the plugin that helps you build and customize all other plugins — your starting point for tailoring Claude to your organization's specific tools and workflows.
 
 ---
 
