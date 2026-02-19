@@ -2,6 +2,10 @@
 
 **Comprehensive, business-friendly guides for every Anthropic Knowledge Work Plugin.**
 
+<p align="center">
+  <img src="Anthropic_Cowork_Handbooks.png" alt="The Anthropic Business Stack: 11 Essential Playbooks" width="700">
+</p>
+
 These handbooks turn Anthropic's [official plugin source code](https://github.com/anthropics/knowledge-work-plugins) into practical, readable guides for business users. Each handbook covers every command, skill, connector, and workflow — explained for the people who *use* the tools, not the people who built them.
 
 > 137,000+ words across 11 handbooks — researched and written by a coordinated team of 22 AI agents in about 2 hours. [See how.](#how-these-handbooks-were-made)
